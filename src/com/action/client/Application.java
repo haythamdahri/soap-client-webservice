@@ -14,7 +14,7 @@ public class Application {
 		
 		// Get params objects to put parameters on it before sending
 		AdministrateurServiceStub.GetAdministrateur params = new AdministrateurServiceStub.GetAdministrateur();
-		params.setId(1L);
+		params.setId("1L");
 		
 		// Get method response object
 		AdministrateurServiceStub.GetAdministrateurResponse response =  stub.getAdministrateur(params);
@@ -28,6 +28,8 @@ public class Application {
 		System.out.println("Last name: " + administrateur.getLastName());
 		System.out.println("Email: " + administrateur.getEmail());
 		System.out.println("Password: " + administrateur.getPassword());
+		
+	
 	}
 
 }

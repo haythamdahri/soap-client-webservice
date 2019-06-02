@@ -718,14 +718,25 @@
                         */
 
                         
-                                    protected long localId ;
+                                    protected java.lang.String localId ;
                                 
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localIdTracker = false ;
+
+                           public boolean isIdSpecified(){
+                               return localIdTracker;
+                           }
+
+                           
 
                            /**
                            * Auto generated getter method
-                           * @return long
+                           * @return java.lang.String
                            */
-                           public  long getId(){
+                           public  java.lang.String getId(){
                                return localId;
                            }
 
@@ -735,8 +746,9 @@
                                * Auto generated setter method
                                * @param param Id
                                */
-                               public void setId(long param){
-                            
+                               public void setId(java.lang.String param){
+                            localIdTracker = true;
+                                   
                                             this.localId=param;
                                        
 
@@ -799,20 +811,25 @@
 
                
                    }
-               
+                if (localIdTracker){
                                     namespace = "http://service.action.com";
                                     writeStartElement(null, namespace, "id", xmlWriter);
                              
-                                               if (localId==java.lang.Long.MIN_VALUE) {
-                                           
-                                                         throw new org.apache.axis2.databinding.ADBException("id cannot be null!!");
-                                                      
-                                               } else {
-                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localId));
-                                               }
+
+                                          if (localId==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localId);
+                                            
+                                          }
                                     
                                    xmlWriter.writeEndElement();
-                             
+                             }
                     xmlWriter.writeEndElement();
                
 
@@ -1062,26 +1079,29 @@
                                 
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://service.action.com","id").equals(reader.getName())){
                                 
-                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"id" +"  cannot be null");
-                                    }
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
 
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setId(
-                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToLong(content));
-                                              
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
                                         reader.next();
                                     
                               }  // End of if for expected property start element
                                 
-                                else{
-                                    // 1 - A start element we are not expecting indicates an invalid parameter was passed
-                                    throw new org.apache.axis2.databinding.ADBException("Unexpected subelement " + reader.getName());
-                                }
-                              
+                                    else {
+                                        
+                                    }
+                                  
                             while (!reader.isStartElement() && !reader.isEndElement())
                                 reader.next();
                             
@@ -2467,7 +2487,7 @@
                         */
 
                         
-                                    protected long localId ;
+                                    protected java.lang.String localId ;
                                 
                            /*  This tracker boolean wil be used to detect whether the user called the set method
                           *   for this attribute. It will be used to determine whether to include this field
@@ -2483,9 +2503,9 @@
 
                            /**
                            * Auto generated getter method
-                           * @return long
+                           * @return java.lang.String
                            */
-                           public  long getId(){
+                           public  java.lang.String getId(){
                                return localId;
                            }
 
@@ -2495,7 +2515,7 @@
                                * Auto generated setter method
                                * @param param Id
                                */
-                               public void setId(long param){
+                               public void setId(java.lang.String param){
                             localIdTracker = true;
                                    
                                             this.localId=param;
@@ -2684,13 +2704,18 @@
                                     namespace = "http://entities.action.com/xsd";
                                     writeStartElement(null, namespace, "id", xmlWriter);
                              
-                                               if (localId==java.lang.Long.MIN_VALUE) {
-                                           
-                                                         writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
-                                                      
-                                               } else {
-                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localId));
-                                               }
+
+                                          if (localId==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localId);
+                                            
+                                          }
                                     
                                    xmlWriter.writeEndElement();
                              } if (localLastNameTracker){
@@ -3042,13 +3067,11 @@
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setId(
-                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToLong(content));
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {
                                            
                                            
-                                                   object.setId(java.lang.Long.MIN_VALUE);
-                                               
                                            reader.getElementText(); // throw away text nodes if any.
                                        }
                                       
@@ -3058,8 +3081,6 @@
                                 
                                     else {
                                         
-                                               object.setId(java.lang.Long.MIN_VALUE);
-                                           
                                     }
                                 
                                     
