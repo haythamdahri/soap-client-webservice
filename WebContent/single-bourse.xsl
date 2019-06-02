@@ -52,21 +52,18 @@
 								<a class="nav-link" href="/Currency-client/bourses">
 									<i class="fas fa-money-bill-alt"></i>
 									Bourses
-									<span class="sr-only">(current)</span>
 								</a>
 							</li>
 							<li class="nav-item active">
 								<a class="nav-link" href="/Currency-client/actions">
 									<i class="fas fa-exchange-alt"></i>
 									Actions
-									<span class="sr-only">(current)</span>
 								</a>
 							</li>
 							<li class="nav-item active">
-								<a class="nav-link" href="/price-action">
+								<a class="nav-link" href="/Currency-client/login">
 									<i class="fas fa-sign-in-alt"></i>
 									Se connecter
-									<span class="sr-only">(current)</span>
 								</a>
 							</li>
 						</ul>

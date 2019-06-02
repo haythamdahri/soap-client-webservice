@@ -52,27 +52,25 @@
 								<a class="nav-link" href="/Currency-client/bourses">
 									<i class="fas fa-money-bill-alt"></i>
 									Bourses
-									<span class="sr-only">(current)</span>
 								</a>
 							</li>
 							<li class="nav-item active">
 								<a class="nav-link" href="/Currency-client/actions">
 									<i class="fas fa-exchange-alt"></i>
 									Actions
-									<span class="sr-only">(current)</span>
 								</a>
 							</li>
 							<li class="nav-item active">
-								<a class="nav-link" href="/price-action">
+								<a class="nav-link" href="/Currency-client/login">
 									<i class="fas fa-sign-in-alt"></i>
 									Se connecter
-									<span class="sr-only">(current)</span>
 								</a>
 							</li>
 						</ul>
-						<form class="form-inline my-2 my-lg-0">
-							<input class="form-control mr-sm-2" type="search"
-								placeholder="Recherche..." aria-label="Search" />
+						<form method="GET" action="" class="form-inline my-2 my-lg-0">
+							<input type="hidden" name="search-type" value="list"/> 
+							<input class="form-control mr-sm-2" type="number" name="id"
+								placeholder="Recherche par bourse..." aria-label="Search" />
 							<button class="btn btn-outline-success my-2 my-sm-0"
 								type="submit">Chercher</button>
 						</form>

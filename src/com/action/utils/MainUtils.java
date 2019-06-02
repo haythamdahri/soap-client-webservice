@@ -12,6 +12,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.axis2.AxisFault;
+
 import com.action.service.PriceActionServiceImplStub;
 
 public class MainUtils {
@@ -156,6 +158,41 @@ public class MainUtils {
         Transformer transformer = factory.newTransformer(xslt);
 
         Source text = new StreamSource(new StringReader(actionsXml));
+        StringWriter writer = new StringWriter();
+        transformer.transform(text, new StreamResult(writer));
+        
+        return writer.toString();
+	}
+	
+	/*
+	 * Check user validity 
+	 */
+	public static boolean isValidUser(String email, String password) throws RemoteException {
+		PriceActionServiceImplStub stub = new PriceActionServiceImplStub();
+		PriceActionServiceImplStub.IsValidAdmin params = new PriceActionServiceImplStub.IsValidAdmin();
+		params.setEmail(email);
+		params.setPassword(password);
+		
+		PriceActionServiceImplStub.IsValidAdminResponse response = stub.isValidAdmin(params);
+		return response.get_return();
+	}
+	
+	/*
+	 * Login 
+	 */
+	public static String getLoginPage(String error) throws TransformerException, RemoteException {
+	 
+	    TransformerFactory factory = TransformerFactory.newInstance();
+        Source xslt = new StreamSource(new File(HOME_DIR  + "/login.xsl"));
+        Transformer transformer = factory.newTransformer(xslt);
+
+        Source text = null;
+        if( error == null ) {
+        	text = new StreamSource(new StringReader("<user />"));
+        } else {
+        	text = new StreamSource(new StringReader("<user error='1'/>"));
+        }
+        
         StringWriter writer = new StringWriter();
         transformer.transform(text, new StreamResult(writer));
         

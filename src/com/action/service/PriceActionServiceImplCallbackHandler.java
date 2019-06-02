@@ -221,6 +221,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for isValidAdmin method
+            * override this method for handling normal response from isValidAdmin operation
+            */
+           public void receiveResultisValidAdmin(
+                    com.action.service.PriceActionServiceImplStub.IsValidAdminResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from isValidAdmin operation
+           */
+            public void receiveErrorisValidAdmin(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getActionsByBourse method
             * override this method for handling normal response from getActionsByBourse operation
             */

@@ -59,7 +59,7 @@
 								</a>
 							</li>
 							<li class="nav-item active">
-								<a class="nav-link" href="/price-action">
+								<a class="nav-link" href="/Currency-client/login">
 									<i class="fas fa-sign-in-alt"></i>
 									Se connecter
 								</a>
