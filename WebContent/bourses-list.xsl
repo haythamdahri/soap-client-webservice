@@ -81,7 +81,7 @@
 
 				<!-- Container -->
 				<div class="container">
-					<h1 class="display-4">Liste des bourses disponibles</h1>
+					<h1 class="display-4 text-center"><i class="fas fa-th-list"></i> Liste des bourses disponibles</h1>
 					<table class="table table-striped table-hover table-bordered">
 						<thead class="thead-light">
 							<tr class="text-center">
@@ -102,7 +102,7 @@
 										<a href="/Currency-client/bourses?id={@ns1:id}">
 											<button class="btn btn-primary">
 												<i class="fas fa-list"></i>
-												Information de la bourse
+												Informations de la bourse
 											</button>
 										</a>
 									</td>

@@ -114,6 +114,30 @@ public class MainUtils {
 	}
 	
 	/*
+	 * Actions list xml parsing 
+	 */
+	public static String getRenderedActionHistory(String name) throws TransformerException, RemoteException {
+				
+		PriceActionServiceImplStub stub = new PriceActionServiceImplStub();
+		PriceActionServiceImplStub.GetActionHistory params = new PriceActionServiceImplStub.GetActionHistory();
+		params.setName(name);
+		PriceActionServiceImplStub.GetActionHistoryResponse response = stub.getActionHistory(params);
+		String actionsXml = response.get_return();
+		System.out.println(actionsXml);
+		
+	 
+	    TransformerFactory factory = TransformerFactory.newInstance();
+        Source xslt = new StreamSource(new File(HOME_DIR  + "/action-history.xsl"));
+        Transformer transformer = factory.newTransformer(xslt);
+
+        Source text = new StreamSource(new StringReader(actionsXml));
+        StringWriter writer = new StringWriter();
+        transformer.transform(text, new StreamResult(writer));
+        
+        return writer.toString();
+	}
+	
+	/*
 	 * Bourse Actions list xml parsing 
 	 */
 	public static String getRenderedBourseActions(Long id) throws TransformerException, RemoteException {

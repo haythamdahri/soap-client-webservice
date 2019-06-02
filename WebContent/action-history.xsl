@@ -67,7 +67,8 @@
 						</ul>
 						<form method="GET" action="" class="form-inline my-2 my-lg-0">
 							<input class="form-control mr-sm-2" type="text" name="name"
-								placeholder="Recherche dans l'historqiue d'une action..." aria-label="Search" />
+								placeholder="Recherche dans l'historqiue d'une action..."
+								aria-label="Search" />
 							<button class="btn btn-outline-success my-2 my-sm-0"
 								type="submit">Chercher</button>
 						</form>
@@ -76,80 +77,105 @@
 
 				<!-- Container -->
 				<div class="container">
-					<h1 class="display-4 text-center"><i class="far fa-list-alt"></i> Liste des actions disponibles</h1>
-					<table class="table table-striped table-hover table-bordered">
-						<thead class="thead-light">
-							<tr class="text-center">
-								<th scope="col">#</th>
-								<th scope="col"><i class="fas fa-signature"></i> Nom</th>
-								<th scope="col"><i class="fas fa-table"></i> Date</th>
-								<th scope="col"><i class="fas fa-cash-register"></i> Variation</th>
-								<th scope="col"><i class="fas fa-rss"></i> Ouberture</th>
-								<th scope="col"><i class="fas fa-rss-square"></i> Clôture</th>
-								<th scope="col" colspan="2"><i class="fab fa-artstation"></i> Actions</th>
-							</tr>
-							<xsl:for-each
-								select="/ns2:actions/listeActions/actions">
+					<xsl:if
+						test="count(ns2:actions/listeActions/actions[1]) >= 1">
+						<h1 class="display-4 text-center">
+							<i class="fas fa-search-location"></i>
+							Historique de l'action:
+							<div class="row">
+								<div class="col lead">
+									<i class="fas fa-fingerprint"></i>
+									:
+									<strong>
+										<xsl:value-of
+											select="ns2:actions/listeActions/actions[1]/@ns2:id" />
+									</strong>
+								</div>
+								<div class="col lead">
+									<i class="fas fa-terminal"></i>
+									:
+									<strong>
+										<xsl:value-of
+											select="ns2:actions/listeActions/actions[1]/ns2:name" />
+									</strong>
+								</div>
+							</div>
+						</h1>
+					</xsl:if>
+						<table
+							class="table table-striped table-hover table-bordered mt-4">
+							<thead class="thead-light">
 								<tr class="text-center">
-									<td scope="row">
-										<xsl:value-of select="@ns2:id" />
-									</td>
-									<td>
-										<xsl:value-of select="ns2:name" />
-									</td>
-									<td>
-										<xsl:value-of select="ns2:date" />
-									</td>
+									<th scope="col">#</th>
+									<th scope="col">
+										<i class="fas fa-signature"></i>
+										Nom
+									</th>
+									<th scope="col">
+										<i class="fas fa-table"></i>
+										Date
+									</th>
+									<th scope="col">
+										<i class="fas fa-cash-register"></i>
+										Variation
+									</th>
+									<th scope="col">
+										<i class="fas fa-rss"></i>
+										Ouberture
+									</th>
+									<th scope="col">
+										<i class="fas fa-rss-square"></i>
+										Clôture
+									</th>
+								</tr>
+								<xsl:for-each
+									select="/ns2:actions/listeActions/actions">
+									<tr class="text-center">
+										<td scope="row">
+											<xsl:value-of select="@ns2:id" />
+										</td>
+										<td>
+											<xsl:value-of select="ns2:name" />
+										</td>
+										<td>
+											<xsl:value-of select="ns2:date" />
+										</td>
 
-									<xsl:choose>
-										<xsl:when test="ns1:variation > 0">
-											<td class="text-success">
-												<i class="fas fa-angle-double-up mr-1"></i>
-												<xsl:value-of select="ns1:variation" /> %
-											</td>
-										</xsl:when>
-										<xsl:otherwise>
-											<td class="text-danger">
-												<i class="fas fa-angle-double-down mr-1"></i>
-												<xsl:value-of select="ns1:variation" /> %
-											</td>
-										</xsl:otherwise>
-									</xsl:choose>
-									<td>
-										<xsl:value-of select="ns2:openingAmount" />
-									</td>
-									<td>
-										<xsl:value-of select="ns2:closingAmount" />
-									</td>
-									<td>
-										<a href="/Currency-client/actions?bourse={ns2:bourse}">
-											<button class="btn btn-primary">
-												<i class="fas fa-list"></i>
-												Liste des actions de cette bourse
-											</button>
-										</a>
-									</td>
-									<td>
-										<a href="/Currency-client/actions?name={ns2:name}">
-											<button class="btn btn-info">
-												<i class="fas fa-window-restore"></i>
-												Historique de l'action
-											</button>
-										</a>
-									</td>
-								</tr>
-							</xsl:for-each>
-							<xsl:if
-								test="count(/ns2:actions/listeActions/actions) = 0">
-								<tr class="alert alert-warning text-center">
-									<td colspan="7">
-										<i class="fas fa-exclamation"></i>
-										Aucune action n'a été trouvée!
-									</td>
-								</tr>
-							</xsl:if>
-						</thead>
-					</table>
+										<xsl:choose>
+											<xsl:when test="ns1:variation > 0">
+												<td class="text-success">
+													<i class="fas fa-angle-double-up mr-1"></i>
+													<xsl:value-of select="ns1:variation" />
+													%
+												</td>
+											</xsl:when>
+											<xsl:otherwise>
+												<td class="text-danger">
+													<i class="fas fa-angle-double-down mr-1"></i>
+													<xsl:value-of select="ns1:variation" />
+													%
+												</td>
+											</xsl:otherwise>
+										</xsl:choose>
+										<td>
+											<xsl:value-of select="ns2:openingAmount" />
+										</td>
+										<td>
+											<xsl:value-of select="ns2:closingAmount" />
+										</td>
+									</tr>
+								</xsl:for-each>
+								<xsl:if
+									test="count(/ns2:actions/listeActions/actions) = 0">
+									<tr class="alert alert-warning text-center">
+										<td colspan="7">
+											<i class="fas fa-exclamation"></i>
+											Aucune action n'a été trouvée!
+										</td>
+									</tr>
+								</xsl:if>
+							</thead>
+						</table>
 				</div>
 
 				<!-- Optional JavaScript -->

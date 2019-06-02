@@ -205,6 +205,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getActionHistory method
+            * override this method for handling normal response from getActionHistory operation
+            */
+           public void receiveResultgetActionHistory(
+                    com.action.service.PriceActionServiceImplStub.GetActionHistoryResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getActionHistory operation
+           */
+            public void receiveErrorgetActionHistory(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getActionsByBourse method
             * override this method for handling normal response from getActionsByBourse operation
             */

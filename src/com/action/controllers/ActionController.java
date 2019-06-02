@@ -21,9 +21,10 @@ public class ActionController extends HttpServlet{
 		try {
 			
 			String bourse = request.getParameter("bourse");
+			String actionName = request.getParameter("name");
 			
-			if( bourse == null ) {
-				String renderedHtml = MainUtils.getRenderedActions();
+			if( bourse != null ) {
+				String renderedHtml = MainUtils.getRenderedBourseActions(Long.parseLong(bourse));
 				Writer writer = response.getWriter();
 				
 				// Write html to user
@@ -31,8 +32,19 @@ public class ActionController extends HttpServlet{
 				response.setContentType("text/html");
 				writer.write(renderedHtml);
 				writer.close();
+			} else if( actionName != null ) {
+				String renderedHtml = MainUtils.getRenderedActionHistory(actionName.trim());
+				Writer writer = response.getWriter();
+				
+				// Write html to user
+				// Set content type to html as a return results 
+				response.setContentType("text/html");
+				writer.write(renderedHtml);
+				writer.close();
+				
 			} else {
-				String renderedHtml = MainUtils.getRenderedBourseActions(Long.parseLong(bourse));
+				
+				String renderedHtml = MainUtils.getRenderedActions();
 				Writer writer = response.getWriter();
 				
 				// Write html to user
