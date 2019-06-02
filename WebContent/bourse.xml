@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns1:bourse ns1:id="1" xmlns:ns1="http://www.prix-action.ma">
+    <ns1:name>Bourse Casablanca</ns1:name>
+</ns1:bourse>
