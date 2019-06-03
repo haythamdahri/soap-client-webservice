@@ -23,6 +23,7 @@
 				<title>Client web service : Acceuil</title>
 			</head>
 			<body>
+
 				<!-- Navbar part -->
 				<nav class="navbar navbar-expand-lg navbar-light bg-light">
 					<a class="navbar-brand" href="/price-action">
@@ -77,9 +78,11 @@
 									</a>
 								</li>
 								<li class="nav-item">
-									<form style="margin: 0; padding: 0;" action="/Currency-client/login" id="disconnect">
+									<form style="margin: 0; padding: 0;"
+										action="/Currency-client/login" id="disconnect">
 										<input type="hidden" name="logout" />
-										<a class="nav-link" style="cursor: pointer;" onclick="this.form.submit();">
+										<a class="nav-link" style="cursor: pointer;"
+											onclick="this.form.submit();">
 											<i class="fas fa-sign-out-alt"></i>
 											Se deconnecter
 										</a>
@@ -99,33 +102,20 @@
 
 				<!-- Container -->
 				<div class="container">
-					<xsl:if
-						test="count(ns2:actions/listeActions/actions[1]) >= 1">
-						<h1 class="display-4 text-center">
-							<i class="fas fa-search-location"></i>
-							Historique de l'action:
-							<div class="row">
-								<div class="col lead">
-									<i class="fas fa-fingerprint"></i>
-									:
-									<strong>
-										<xsl:value-of
-											select="ns2:actions/listeActions/actions[1]/@ns2:id" />
-									</strong>
-								</div>
-								<div class="col lead">
-									<i class="fas fa-terminal"></i>
-									:
-									<strong>
-										<xsl:value-of
-											select="ns2:actions/listeActions/actions[1]/ns2:name" />
-									</strong>
-								</div>
-							</div>
-						</h1>
+					<h1 class="display-4 text-center">
+						<i class="fas fa-exchange-alt"></i>
+						Administration des bourses <a href="/Currency-client/dashboard?addBourse"><button class="btn btn-primary btn-sm"><i class="fas fa-plus-circle"></i> Ajouter une nouvelle bourse</button></a>
+					</h1>
+
+					<xsl:if test="//@success">
+						<div class="alert alert-success" role="alert">
+							<i class="far fa-check-square mr-2"></i> 
+							<xsl:value-of select="//@success" />
+						</div>
 					</xsl:if>
-					<table
-						class="table table-striped table-hover table-bordered mt-4">
+
+
+					<table class="table table-striped table-hover table-bordered">
 						<thead class="thead-light">
 							<tr class="text-center">
 								<th scope="col">#</th>
@@ -133,66 +123,102 @@
 									<i class="fas fa-signature"></i>
 									Nom
 								</th>
-								<th scope="col">
-									<i class="fas fa-table"></i>
-									Date
-								</th>
-								<th scope="col">
-									<i class="fas fa-cash-register"></i>
-									Variation
-								</th>
-								<th scope="col">
-									<i class="fas fa-rss"></i>
-									Ouberture
-								</th>
-								<th scope="col">
-									<i class="fas fa-rss-square"></i>
-									Clôture
+								<th scope="col" colspan="3">
+									<i class="fas fa-info-circle"></i>
+									Détails
 								</th>
 							</tr>
 							<xsl:for-each
-								select="/ns2:actions/listeActions/actions">
+								select="/ns2:bourses/listeBourses/bourse">
+
+
+
 								<tr class="text-center">
 									<td scope="row">
-										<xsl:value-of select="@ns2:id" />
+										<xsl:value-of select="@ns1:id" />
 									</td>
 									<td>
-										<xsl:value-of select="ns2:name" />
+										<xsl:value-of select="ns1:name" />
 									</td>
 									<td>
-										<xsl:value-of select="ns2:date" />
+										<a href="/Currency-client/bourses?id={@ns1:id}">
+											<button class="btn btn-primary btn-sm">
+												<i class="fas fa-list"></i>
+												Informations de la bourse
+											</button>
+										</a>
 									</td>
+									<td>
+										<a href="/Currency-client/dashboard?updateBourse={@ns1:id}">
+											<button class="btn btn-primary btn-sm">
+												<i class="fas fa-pen"></i>
+												Modifier
+											</button>
+										</a>
+									</td>
+									<td>
+										<button class="btn btn-danger btn-sm"
+											data-toggle="modal" data-target="#delete-bourse{@ns1:id}">
+											<i class="fas fa-trash-alt"></i>
+											Supprimer
+										</button>
 
-									<xsl:choose>
-										<xsl:when test="ns1:variation > 0">
-											<td class="text-success">
-												<i class="fas fa-angle-double-up mr-1"></i>
-												<xsl:value-of select="ns1:variation" />
-												%
-											</td>
-										</xsl:when>
-										<xsl:otherwise>
-											<td class="text-danger">
-												<i class="fas fa-angle-double-down mr-1"></i>
-												<xsl:value-of select="ns1:variation" />
-												%
-											</td>
-										</xsl:otherwise>
-									</xsl:choose>
-									<td>
-										<xsl:value-of select="ns2:openingAmount" />
-									</td>
-									<td>
-										<xsl:value-of select="ns2:closingAmount" />
+										<!-- Delete confirmation modal -->
+										<div class="modal fade" id="delete-bourse{@ns1:id}"
+											tabindex="-1" role="dialog"
+											aria-labelledby="myLargeModalLabel" aria-hidden="true">
+											<div class="modal-dialog modal-lg">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title">
+															<i class="fas fa-radiation-alt"></i>
+															Attention | Confirmation de suppression
+														</h5>
+														<button type="button" class="close"
+															data-dismiss="modal" aria-label="Close">
+															<span aria-hidden="true">
+																<i class="fas fa-backspace"></i>
+															</span>
+														</button>
+													</div>
+													<div class="modal-body alert alert-warning">
+														<p class="h2">
+															Êtes-vous sûre de supprimer la bourse numero
+															<xsl:value-of select="@ns1:id" />
+															?
+														</p>
+													</div>
+													<div class="modal-footer">
+														<form action="/Currency-client/dashboard"
+															method="POST">
+															<input type="hidden" name="deleteBourse"
+																value="{@ns1:id}" />
+															<button type="button"
+																class="btn btn-secondary btn-sm mr-3"
+																data-dismiss="modal">
+																<i class="fas fa-strikethrough"></i>
+																Annuler
+															</button>
+															<button type="submit"
+																class="btn btn-danger btn-sm">
+																<i class="fas fa-check-double"></i>
+																Oui, confirmer
+															</button>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+
+
 									</td>
 								</tr>
 							</xsl:for-each>
-							<xsl:if
-								test="count(/ns2:actions/listeActions/actions) = 0">
+							<xsl:if test="count(/ns2:bourses/listeBourses/bourse) = 0">
 								<tr class="alert alert-warning text-center">
-									<td colspan="7">
+									<td colspan="3">
 										<i class="fas fa-exclamation"></i>
-										Aucune action n'a été trouvée!
+										Aucune bourse n'a été trouvée!
 									</td>
 								</tr>
 							</xsl:if>

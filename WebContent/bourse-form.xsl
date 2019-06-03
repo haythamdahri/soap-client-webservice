@@ -77,9 +77,11 @@
 									</a>
 								</li>
 								<li class="nav-item">
-									<form style="margin: 0; padding: 0;" action="/Currency-client/login" id="disconnect">
+									<form style="margin: 0; padding: 0;"
+										action="/Currency-client/login" id="disconnect">
 										<input type="hidden" name="logout" />
-										<a class="nav-link" style="cursor: pointer;" onclick="this.form.submit();">
+										<a class="nav-link" style="cursor: pointer;"
+											onclick="this.form.submit();">
 											<i class="fas fa-sign-out-alt"></i>
 											Se deconnecter
 										</a>
@@ -97,107 +99,76 @@
 					</div>
 				</nav>
 
+
 				<!-- Container -->
 				<div class="container">
-					<xsl:if
-						test="count(ns2:actions/listeActions/actions[1]) >= 1">
-						<h1 class="display-4 text-center">
-							<i class="fas fa-search-location"></i>
-							Historique de l'action:
-							<div class="row">
-								<div class="col lead">
-									<i class="fas fa-fingerprint"></i>
-									:
-									<strong>
-										<xsl:value-of
-											select="ns2:actions/listeActions/actions[1]/@ns2:id" />
-									</strong>
-								</div>
-								<div class="col lead">
-									<i class="fas fa-terminal"></i>
-									:
-									<strong>
-										<xsl:value-of
-											select="ns2:actions/listeActions/actions[1]/ns2:name" />
-									</strong>
-								</div>
-							</div>
-						</h1>
-					</xsl:if>
-					<table
-						class="table table-striped table-hover table-bordered mt-4">
-						<thead class="thead-light">
-							<tr class="text-center">
-								<th scope="col">#</th>
-								<th scope="col">
-									<i class="fas fa-signature"></i>
-									Nom
-								</th>
-								<th scope="col">
-									<i class="fas fa-table"></i>
-									Date
-								</th>
-								<th scope="col">
-									<i class="fas fa-cash-register"></i>
-									Variation
-								</th>
-								<th scope="col">
-									<i class="fas fa-rss"></i>
-									Ouberture
-								</th>
-								<th scope="col">
-									<i class="fas fa-rss-square"></i>
-									Clôture
-								</th>
-							</tr>
-							<xsl:for-each
-								select="/ns2:actions/listeActions/actions">
-								<tr class="text-center">
-									<td scope="row">
-										<xsl:value-of select="@ns2:id" />
-									</td>
-									<td>
-										<xsl:value-of select="ns2:name" />
-									</td>
-									<td>
-										<xsl:value-of select="ns2:date" />
-									</td>
+					<h1 class="display-4 text-center">
+						<i class="fas fa-text-height"></i>
+						Modification Bourse
+					</h1>
 
-									<xsl:choose>
-										<xsl:when test="ns1:variation > 0">
-											<td class="text-success">
-												<i class="fas fa-angle-double-up mr-1"></i>
-												<xsl:value-of select="ns1:variation" />
-												%
-											</td>
-										</xsl:when>
-										<xsl:otherwise>
-											<td class="text-danger">
-												<i class="fas fa-angle-double-down mr-1"></i>
-												<xsl:value-of select="ns1:variation" />
-												%
-											</td>
-										</xsl:otherwise>
-									</xsl:choose>
-									<td>
-										<xsl:value-of select="ns2:openingAmount" />
-									</td>
-									<td>
-										<xsl:value-of select="ns2:closingAmount" />
-									</td>
-								</tr>
-							</xsl:for-each>
-							<xsl:if
-								test="count(/ns2:actions/listeActions/actions) = 0">
-								<tr class="alert alert-warning text-center">
-									<td colspan="7">
-										<i class="fas fa-exclamation"></i>
-										Aucune action n'a été trouvée!
-									</td>
-								</tr>
-							</xsl:if>
-						</thead>
-					</table>
+					<div class="card">
+						<div class="card-header">
+							<i class="fas fa-edit"></i>
+							Modification de la bourse N°
+							<xsl:value-of select="ns1:bourse/@ns1:id" />
+						</div>
+						<div class="card-body">
+							<h5 class="card-title">
+								<i class="fas fa-italic"></i>
+								Saisir les données
+							</h5>
+							<p class="card-text">
+
+								<xsl:if test="//@error">
+									<div class="alert alert-danger" role="alert">
+										<i class="fas fa-exclamation-triangle"></i>
+										Les données saisies sont invalides!
+									</div>
+								</xsl:if>
+
+								<!-- Update bourse form -->
+								<form method="POST"
+									action="/Currency-client/dashboard?updateBourse">
+									<div class="form-group">
+										<label>
+											<i class="fas fa-fingerprint"></i>
+											Id
+										</label>
+
+										<xsl:if test="ns1:bourse/@ns1:id">
+											<input type="number" value="{ns1:bourse/@ns1:id}"
+												class="form-control" name="id" readonly="true"
+												required="true" placeholder="Id bourse" />
+											<input type="hidden" name="updateBourse" />
+										</xsl:if>
+										<xsl:if test="not(//bourse) and not(ns1:bourse/@ns1:id)">
+											<input type="text" class="form-control" value="##"
+												name="id" readonly="true" required="true"
+												placeholder="Id bourse" />
+											<input type="hidden" name="addBourse" />
+										</xsl:if>
+
+									</div>
+									<div class="form-group">
+										<label>
+											<i class="fas fa-dice-d6"></i>
+											Nom
+										</label>
+										<input type="text" class="form-control" name="name"
+											value="{ns1:bourse/ns1:name}"
+											placeholder="Saisir le nom de la bourse" maxLength="50"
+											minLength="5" required="true" />
+									</div>
+									<button type="submit" class="btn btn-primary btn-sm">
+										<i class="fas fa-sd-card"></i>
+										Enregistrer
+									</button>
+								</form>
+							</p>
+						</div>
+					</div>
+
 				</div>
 
 				<!-- Optional JavaScript -->

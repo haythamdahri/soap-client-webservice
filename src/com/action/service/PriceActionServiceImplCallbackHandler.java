@@ -189,6 +189,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for addBourse method
+            * override this method for handling normal response from addBourse operation
+            */
+           public void receiveResultaddBourse(
+                    com.action.service.PriceActionServiceImplStub.AddBourseResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from addBourse operation
+           */
+            public void receiveErroraddBourse(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getBourse method
             * override this method for handling normal response from getBourse operation
             */

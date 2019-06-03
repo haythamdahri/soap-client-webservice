@@ -42,30 +42,52 @@
 						id="navbarSupportedContent">
 						<ul class="navbar-nav mr-auto">
 							<li class="nav-item active">
-								<a class="nav-link" href="/">
+								<a class="nav-link" href="/Currency-client">
 									<i class="fas fa-home"></i>
 									Acceuil
 									<span class="sr-only">(current)</span>
 								</a>
 							</li>
-							<li class="nav-item active">
+							<li class="nav-item">
 								<a class="nav-link" href="/Currency-client/bourses">
 									<i class="fas fa-money-bill-alt"></i>
 									Bourses
 								</a>
 							</li>
-							<li class="nav-item active">
+							<li class="nav-item">
 								<a class="nav-link" href="/Currency-client/actions">
 									<i class="fas fa-exchange-alt"></i>
 									Actions
 								</a>
 							</li>
-							<li class="nav-item active">
-								<a class="nav-link" href="/Currency-client/login">
-									<i class="fas fa-sign-in-alt"></i>
-									Se connecter
-								</a>
-							</li>
+
+							<xsl:if test="not(//connected-user/@email)">
+								<li class="nav-item">
+									<a class="nav-link" href="/Currency-client/login">
+										<i class="fas fa-sign-in-alt"></i>
+										Se connecter
+									</a>
+								</li>
+							</xsl:if>
+
+							<xsl:if test="//connected-user/@email">
+								<li class="nav-item">
+									<a class="nav-link" href="/Currency-client/dashboard">
+										<i class="fas fa-tachometer-alt"></i>
+										Dashboard
+									</a>
+								</li>
+								<li class="nav-item">
+									<form style="margin: 0; padding: 0;" action="/Currency-client/login" id="disconnect">
+										<input type="hidden" name="logout" />
+										<a class="nav-link" style="cursor: pointer;" onclick="this.form.submit();">
+											<i class="fas fa-sign-out-alt"></i>
+											Se deconnecter
+										</a>
+									</form>
+								</li>
+							</xsl:if>
+
 						</ul>
 						<form class="form-inline my-2 my-lg-0">
 							<input class="form-control mr-sm-2" type="search"
@@ -78,21 +100,24 @@
 
 
 
-
 				<!-- Container -->
 				<div class="container">
 
 					<div class="card mt-5">
 						<div class="card-header">
-							<i class="fas fa-info"></i> Détails de la bourse N°
+							<i class="fas fa-info"></i>
+							Détails de la bourse N°
 							<xsl:value-of select="ns1:bourse/@ns1:id" />
 						</div>
 						<div class="card-body">
-							<blockquote class="blockquote mb-0">									
-									<p class="lead">
-									<strong><i class="fas fa-file-signature"></i> Nom: </strong>
-										<xsl:value-of select="ns1:bourse/ns1:name" />
-									</p>
+							<blockquote class="blockquote mb-0">
+								<p class="lead">
+									<strong>
+										<i class="fas fa-file-signature"></i>
+										Nom:
+									</strong>
+									<xsl:value-of select="ns1:bourse/ns1:name" />
+								</p>
 								<footer class="blockquote-footer">
 									Visiter la liste des actions de la bourse
 									<cite title="Source Title">

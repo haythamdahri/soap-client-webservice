@@ -29,7 +29,7 @@ public class AuthenticationController extends HttpServlet {
 
 			// Redirect use to the home page if already connected
 			if (email != null && password != null) {
-				response.sendRedirect(request.getServletContext().getContextPath() + "/");
+				response.sendRedirect(request.getServletContext().getContextPath() + "/bourses");
 			} else {
 				String renderedHtml = MainUtils.getLoginPage(error);
 				Writer writer = response.getWriter();
@@ -67,7 +67,9 @@ public class AuthenticationController extends HttpServlet {
 				boolean isValid = MainUtils.isValidUser(userEmail, userPassword);
 				
 				if( isValid ) {
-					response.sendRedirect(request.getServletContext().getContextPath() + "/");
+					session.setAttribute("email", userEmail);
+					session.setAttribute("password", MainUtils.getPasswordHash(userPassword));
+					response.sendRedirect(request.getServletContext().getContextPath() + "/bourses");
 				} else {
 					response.sendRedirect(request.getServletContext().getContextPath() + "/login?error");
 				}

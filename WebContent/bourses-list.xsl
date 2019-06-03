@@ -24,7 +24,7 @@
 			</head>
 			<body>
 
-				<!-- navbar -->
+				<!-- Navbar part -->
 				<nav class="navbar navbar-expand-lg navbar-light bg-light">
 					<a class="navbar-brand" href="/price-action">
 						<i class="fab fa-aws"></i>
@@ -37,39 +37,61 @@
 						<span class="navbar-toggler-icon"></span>
 					</button>
 
+
 					<div class="collapse navbar-collapse"
 						id="navbarSupportedContent">
 						<ul class="navbar-nav mr-auto">
 							<li class="nav-item active">
-								<a class="nav-link" href="/">
+								<a class="nav-link" href="/Currency-client">
 									<i class="fas fa-home"></i>
 									Acceuil
 									<span class="sr-only">(current)</span>
 								</a>
 							</li>
-							<li class="nav-item active">
+							<li class="nav-item">
 								<a class="nav-link" href="/Currency-client/bourses">
 									<i class="fas fa-money-bill-alt"></i>
 									Bourses
 								</a>
 							</li>
-							<li class="nav-item active">
+							<li class="nav-item">
 								<a class="nav-link" href="/Currency-client/actions">
 									<i class="fas fa-exchange-alt"></i>
 									Actions
 								</a>
 							</li>
-							<li class="nav-item active">
-								<a class="nav-link" href="/Currency-client/login">
-									<i class="fas fa-sign-in-alt"></i>
-									Se connecter
-								</a>
-							</li>
+
+							<xsl:if test="not(//connected-user/@email)">
+								<li class="nav-item">
+									<a class="nav-link" href="/Currency-client/login">
+										<i class="fas fa-sign-in-alt"></i>
+										Se connecter
+									</a>
+								</li>
+							</xsl:if>
+
+							<xsl:if test="//connected-user/@email">
+								<li class="nav-item">
+									<a class="nav-link" href="/Currency-client/dashboard">
+										<i class="fas fa-tachometer-alt"></i>
+										Dashboard
+									</a>
+								</li>
+								<li class="nav-item">
+									<form style="margin: 0; padding: 0;" action="/Currency-client/login" id="disconnect">
+										<input type="hidden" name="logout" />
+										<a class="nav-link" style="cursor: pointer;" onclick="this.form.submit();">
+											<i class="fas fa-sign-out-alt"></i>
+											Se deconnecter
+										</a>
+									</form>
+								</li>
+							</xsl:if>
+
 						</ul>
-						<form method="GET" action="" class="form-inline my-2 my-lg-0">
-							<input type="hidden" name="search-type" value="list"/> 
-							<input class="form-control mr-sm-2" type="number" name="id"
-								placeholder="Recherche par bourse..." aria-label="Search" />
+						<form class="form-inline my-2 my-lg-0">
+							<input class="form-control mr-sm-2" type="search"
+								placeholder="Recherche..." aria-label="Search" />
 							<button class="btn btn-outline-success my-2 my-sm-0"
 								type="submit">Chercher</button>
 						</form>
@@ -97,7 +119,7 @@
 									</td>
 									<td>
 										<a href="/Currency-client/bourses?id={@ns1:id}">
-											<button class="btn btn-primary">
+											<button class="btn btn-primary btn-sm">
 												<i class="fas fa-list"></i>
 												Informations de la bourse
 											</button>

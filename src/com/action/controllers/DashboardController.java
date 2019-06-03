@@ -1,0 +1,188 @@
+package com.action.controllers;
+
+import java.io.Writer;
+
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.action.service.PriceActionServiceImplStub.Bourse;
+import com.action.utils.MainUtils;
+
+@WebServlet("/dashboard")
+public class DashboardController extends HttpServlet {
+
+	public void doGet(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+			// Catch error paramameters
+			String error = request.getParameter("error");
+
+			// Check if user is connected
+			HttpSession session = request.getSession();
+
+			// Requested page on dashboard
+			// Add action | update action | delete action | list actions | Add bourse |
+			// update bourse | delete bourse | list bourses
+			String addAction = request.getParameter("addAction");
+			String updateAction = request.getParameter("updateAction");
+			String deleteAction = request.getParameter("deleteAction");
+			String actionPage = request.getParameter("actionPage");
+
+			String addBourse = request.getParameter("addBourse");
+			String updateBourse = request.getParameter("updateBourse");
+			String deleteBourse = request.getParameter("deleteBourse");
+			String boursePage = request.getParameter("boursePage");
+
+			String email = (String) session.getAttribute("email");
+			String password = (String) session.getAttribute("password");
+
+			// Rendered html
+			String renderedHtml = "";
+
+			// Redirect use to the login page if not connected
+			if (email == null || password == null) {
+				response.sendRedirect(request.getServletContext().getContextPath() + "/login");
+			} else {
+				// One parameter at least is required
+
+				if (addAction != null) {
+
+				} else if (updateAction != null) {
+
+				} else if (deleteAction != null) {
+
+				} else if (actionPage != null) {
+
+				} else if (addBourse != null) {
+					renderedHtml = MainUtils.getRenderedBourseForm(null, email, null);
+				} else if (updateBourse != null) {
+					Long id = Long.parseLong(updateBourse);
+					renderedHtml = MainUtils.getRenderedBourseForm(id, email, null);
+
+				} else if (deleteBourse != null) {
+
+				} else if (boursePage != null) {
+					// Display success message if operation done successflly
+					String success = request.getParameter("success") != null ? "Les données sont enregistrées avec succé!" : null;
+					renderedHtml = MainUtils.getAdminRenderedBourses(email, success);
+				} else {
+					response.sendRedirect(request.getServletContext().getContextPath() + "/dashboard?boursePage");
+				}
+
+				Writer writer = response.getWriter();
+
+				// Write html to user
+				// Set content type to html as a return results
+				response.setContentType("text/html");
+				writer.write(renderedHtml);
+				writer.close();
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+			// Catch error paramameters
+			String error = request.getParameter("error");
+
+			// Check if user is connected
+			HttpSession session = request.getSession();
+
+			// Requested page on dashboard
+			// Add action | update action | delete action | list actions | Add bourse |
+			// update bourse | delete bourse | list bourses
+			String addAction = request.getParameter("addAction");
+			String updateAction = request.getParameter("updateAction");
+			String deleteAction = request.getParameter("deleteAction");
+			String actionPage = request.getParameter("actionPage");
+
+			String addBourse = request.getParameter("addBourse");
+			String updateBourse = request.getParameter("updateBourse");
+			String deleteBourse = request.getParameter("deleteBourse");
+			String boursePage = request.getParameter("boursePage");
+
+			String email = (String) session.getAttribute("email");
+			String password = (String) session.getAttribute("password");
+
+			// Rendered html
+			String renderedHtml = "";
+
+			// Redirect use to the login page if not connected
+			if (email == null || password == null) {
+				response.sendRedirect(request.getServletContext().getContextPath() + "/login");
+			} else {
+				// One parameter at least is required
+
+				if (addAction != null) {
+
+				} else if (updateAction != null) {
+
+				} else if (deleteAction != null) {
+
+				} else if (actionPage != null) {
+
+				} else if (addBourse != null) {
+
+					String name=  request.getParameter("name").trim();
+					Bourse persistedBourse = new Bourse();
+					persistedBourse.setName(name);;
+					
+					boolean persisted = MainUtils.persistBourse(persistedBourse);
+					if( persisted ) {
+						response.sendRedirect(request.getServletContext().getContextPath() + "/dashboard?boursePage&success");
+					} else {
+						Long bourseId = Long.parseLong(addBourse);
+						renderedHtml = MainUtils.getRenderedBourseForm(null, email, "Données invalides!");
+					}
+					return;
+					
+				} else if (updateBourse != null) {
+					String id = request.getParameter("id").trim();
+					String name=  request.getParameter("name").trim();
+					Bourse updatedBourse = new Bourse();
+					updatedBourse.setId(id);
+					updatedBourse.setName(name);;
+					
+					boolean updated = MainUtils.updateBourse(updatedBourse);
+					if( updated ) {
+						response.sendRedirect(request.getServletContext().getContextPath() + "/dashboard?boursePage&success");
+						return;
+					} else {
+						Long bourseId = Long.parseLong(updateBourse);
+						renderedHtml = MainUtils.getRenderedBourseForm(bourseId, email, "Données invalides!");
+					}
+
+				} else if (deleteBourse != null) {
+
+				} else if (boursePage != null) {
+					renderedHtml = MainUtils.getAdminRenderedBourses(email, null);
+				} else {
+					response.sendRedirect(request.getServletContext().getContextPath() + "/dashboard?boursePage");
+				}
+
+				Writer writer = response.getWriter();
+
+				// Write html to user
+				// Set content type to html as a return results
+				response.setContentType("text/html");
+				writer.write(renderedHtml);
+				writer.close();
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+}

@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.action.utils.MainUtils;
 
@@ -19,12 +20,16 @@ public class ActionController extends HttpServlet{
 	public void doGet(HttpServletRequest request, HttpServletResponse response) {
 		
 		try {
+			HttpSession session = request.getSession();
+			
+			String userEmail = (String)session.getAttribute("email");
+			String userPassword = (String)session.getAttribute("password");
 			
 			String bourse = request.getParameter("bourse");
 			String actionName = request.getParameter("name");
 			
 			if( bourse != null ) {
-				String renderedHtml = MainUtils.getRenderedBourseActions(Long.parseLong(bourse));
+				String renderedHtml = MainUtils.getRenderedBourseActions(Long.parseLong(bourse), userEmail);
 				Writer writer = response.getWriter();
 				
 				// Write html to user
@@ -33,7 +38,7 @@ public class ActionController extends HttpServlet{
 				writer.write(renderedHtml);
 				writer.close();
 			} else if( actionName != null ) {
-				String renderedHtml = MainUtils.getRenderedActionHistory(actionName.trim());
+				String renderedHtml = MainUtils.getRenderedActionHistory(actionName.trim(), userEmail);
 				Writer writer = response.getWriter();
 				
 				// Write html to user
@@ -44,7 +49,7 @@ public class ActionController extends HttpServlet{
 				
 			} else {
 				
-				String renderedHtml = MainUtils.getRenderedActions();
+				String renderedHtml = MainUtils.getRenderedActions(userEmail);
 				Writer writer = response.getWriter();
 				
 				// Write html to user
