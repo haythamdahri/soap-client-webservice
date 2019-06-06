@@ -1,6 +1,8 @@
 package com.action.controllers;
 
 import java.io.Writer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.action.service.PriceActionServiceImplStub.Action;
 import com.action.service.PriceActionServiceImplStub.Bourse;
 import com.action.utils.MainUtils;
 
@@ -129,6 +132,30 @@ public class DashboardController extends HttpServlet {
 				if (addAction != null) {
 
 				} else if (updateAction != null) {
+					
+					String id = request.getParameter("id").trim();
+					String name=  request.getParameter("name").trim();
+					String openingAmount=  request.getParameter("openingAmount").trim();
+					String closingAmount=  request.getParameter("closingAmount").trim();
+					String bourse = request.getParameter("bourse").trim();
+					String dateStr = request.getParameter("date");
+					Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);  
+					Action updatedAction = new Action();
+					updatedAction.setId(id);
+					updatedAction.setName(name);
+					updatedAction.setOpeningAmount(Double.parseDouble(openingAmount));
+					updatedAction.setClosingAmount(Double.parseDouble(closingAmount));
+					updatedAction.setDate(date);
+					updatedAction.setBourseId(Long.parseLong(bourse));
+					
+					boolean updated = MainUtils.updateAction(updatedAction);
+					if( updated ) {
+						response.sendRedirect(request.getServletContext().getContextPath() + "/dashboard?actionPage&success");
+						return;
+					} else {
+						Long actionId = Long.parseLong(id);
+						renderedHtml = MainUtils.getRenderedActionForm(actionId, email, "Données invalides!");
+					}
 
 				} else if (deleteAction != null) {
 
@@ -161,7 +188,7 @@ public class DashboardController extends HttpServlet {
 						response.sendRedirect(request.getServletContext().getContextPath() + "/dashboard?boursePage&success");
 						return;
 					} else {
-						Long bourseId = Long.parseLong(updateBourse);
+						Long bourseId = Long.parseLong(id);
 						renderedHtml = MainUtils.getRenderedBourseForm(bourseId, email, "Données invalides!");
 					}
 

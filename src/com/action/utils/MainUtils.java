@@ -14,9 +14,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.axis2.AxisFault;
-
 import com.action.service.PriceActionServiceImplStub;
+import com.action.service.PriceActionServiceImplStub.Action;
 import com.action.service.PriceActionServiceImplStub.Bourse;
 
 public class MainUtils {
@@ -333,7 +332,7 @@ public class MainUtils {
 
 		// Inject the error in case of error
 		Source text = null;
-		if (error == null) {
+		if (error != null) {
 			text = new StreamSource(new StringReader(injectError(error, bourseXml)));
 		} else {
 			text = new StreamSource(new StringReader(bourseXml));
@@ -378,7 +377,7 @@ public class MainUtils {
 
 		// Inject the error in case of error
 		Source text = null;
-		if (error == null) {
+		if (error != null) {
 			text = new StreamSource(new StringReader(injectError(error, actionXml)));
 		} else {
 			text = new StreamSource(new StringReader(actionXml));
@@ -401,6 +400,18 @@ public class MainUtils {
 		PriceActionServiceImplStub.UpdateBourse params = new PriceActionServiceImplStub.UpdateBourse();
 		params.setBourse(updatedBourse);
 		PriceActionServiceImplStub.UpdateBourseResponse response = stub.updateBourse(params);
+		return response.get_return();
+	}
+	
+	/*
+	 * Update bourse
+	 */
+	public static boolean updateAction(Action action) throws TransformerException, RemoteException {
+
+		PriceActionServiceImplStub stub = new PriceActionServiceImplStub();
+		PriceActionServiceImplStub.UpdateAction params = new PriceActionServiceImplStub.UpdateAction();
+		params.setAction(action);
+		PriceActionServiceImplStub.UpdateActionResponse response = stub.updateAction(params);
 		return response.get_return();
 	}
 	

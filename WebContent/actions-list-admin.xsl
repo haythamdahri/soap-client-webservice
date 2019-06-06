@@ -71,16 +71,36 @@
 							</xsl:if>
 
 							<xsl:if test="//connected-user/@email">
-								<li class="nav-item">
-									<a class="nav-link" href="/Currency-client/dashboard">
+
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="#"
+										id="navbarDropdown" role="button" data-toggle="dropdown"
+										aria-haspopup="true" aria-expanded="false">
 										<i class="fas fa-tachometer-alt"></i>
 										Dashboard
 									</a>
+									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+										<a class="dropdown-item"
+											href="/Currency-client/dashboard?boursePage">
+											<i class="fas fa-building"></i> 
+											Administration des bourses
+										</a>
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item"
+											href="/Currency-client/dashboard?actionPage">
+											<i class="fab fa-artstation"></i> 
+											Administration des actions
+										</a>
+									</div>
 								</li>
+
+
 								<li class="nav-item">
-									<form method="POST" style="margin: 0; padding: 0;" action="/Currency-client/login" id="disconnect">
+									<form method="POST" style="margin: 0; padding: 0;"
+										action="/Currency-client/login" id="disconnect">
 										<input type="hidden" name="logout" />
-										<a class="nav-link" style="cursor: pointer;" onclick="document.getElementById('disconnect').submit();">
+										<a class="nav-link" style="cursor: pointer;"
+											onclick="document.getElementById('disconnect').submit();">
 											<i class="fas fa-sign-out-alt"></i>
 											Se deconnecter
 										</a>
@@ -123,12 +143,30 @@
 						<thead class="thead-light">
 							<tr class="text-center">
 								<th scope="col">#</th>
-								<th scope="col"><i class="fas fa-signature"></i> Nom</th>
-								<th scope="col"><i class="fas fa-table"></i> Date</th>
-								<th scope="col"><i class="fas fa-cash-register"></i> Variation</th>
-								<th scope="col"><i class="fas fa-rss"></i> Ouberture</th>
-								<th scope="col"><i class="fas fa-rss-square"></i> Clôture</th>
-								<th scope="col" colspan="3"><i class="fab fa-artstation"></i> Actions</th>
+								<th scope="col">
+									<i class="fas fa-signature"></i>
+									Nom
+								</th>
+								<th scope="col">
+									<i class="fas fa-table"></i>
+									Date
+								</th>
+								<th scope="col">
+									<i class="fas fa-cash-register"></i>
+									Variation
+								</th>
+								<th scope="col">
+									<i class="fas fa-rss"></i>
+									Ouberture
+								</th>
+								<th scope="col">
+									<i class="fas fa-rss-square"></i>
+									Clôture
+								</th>
+								<th scope="col" colspan="3">
+									<i class="fab fa-artstation"></i>
+									Actions
+								</th>
 							</tr>
 							<xsl:for-each
 								select="/ns2:actions/listeActions/actions">
@@ -147,16 +185,18 @@
 									</td>
 
 									<xsl:choose>
-										<xsl:when test="ns1:variation > 0">
+										<xsl:when test="ns1:variation >= 0">
 											<td class="text-success">
 												<i class="fas fa-angle-double-up mr-1"></i>
-												<xsl:value-of select="ns1:variation" /> %
+												<xsl:value-of select="ns1:variation" />
+												%
 											</td>
 										</xsl:when>
 										<xsl:otherwise>
 											<td class="text-danger">
 												<i class="fas fa-angle-double-down mr-1"></i>
-												<xsl:value-of select="ns1:variation" /> %
+												<xsl:value-of select="ns1:variation" />
+												%
 											</td>
 										</xsl:otherwise>
 									</xsl:choose>
@@ -166,8 +206,8 @@
 									<td>
 										<xsl:value-of select="ns2:closingAmount" />
 									</td>
-									
-									
+
+
 									<td>
 										<a href="/Currency-client/actions?name={ns2:name}">
 											<button class="btn btn-primary btn-sm">
@@ -247,7 +287,8 @@
 									</td>
 								</tr>
 							</xsl:for-each>
-							<xsl:if test="count(/ns2:actions/listeActions/actions) = 0">
+							<xsl:if
+								test="count(/ns2:actions/listeActions/actions) = 0">
 								<tr class="alert alert-warning text-center">
 									<td colspan="3">
 										<i class="fas fa-exclamation"></i>

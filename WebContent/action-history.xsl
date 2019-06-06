@@ -70,11 +70,26 @@
 							</xsl:if>
 
 							<xsl:if test="//connected-user/@email">
-								<li class="nav-item">
-									<a class="nav-link" href="/Currency-client/dashboard">
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="#"
+										id="navbarDropdown" role="button" data-toggle="dropdown"
+										aria-haspopup="true" aria-expanded="false">
 										<i class="fas fa-tachometer-alt"></i>
 										Dashboard
 									</a>
+									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+										<a class="dropdown-item"
+											href="/Currency-client/dashboard?boursePage">
+											<i class="fas fa-building"></i> 
+											Administration des bourses
+										</a>
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item"
+											href="/Currency-client/dashboard?actionPage">
+											<i class="fab fa-artstation"></i> 
+											Administration des actions
+										</a>
+									</div>
 								</li>
 								<li class="nav-item">
 									<form method="POST" style="margin: 0; padding: 0;" action="/Currency-client/login" id="disconnect">
