@@ -78,9 +78,9 @@
 									</a>
 								</li>
 								<li class="nav-item">
-									<form style="margin: 0; padding: 0;" action="/Currency-client/login" id="disconnect">
+									<form method="POST" style="margin: 0; padding: 0;" action="/Currency-client/login" id="disconnect">
 										<input type="hidden" name="logout" />
-										<a class="nav-link" style="cursor: pointer;" onclick="this.form.submit();">
+										<a class="nav-link" style="cursor: pointer;" onclick="document.getElementById('disconnect').submit();">
 											<i class="fas fa-sign-out-alt"></i>
 											Se deconnecter
 										</a>

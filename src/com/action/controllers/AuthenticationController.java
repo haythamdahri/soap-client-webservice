@@ -56,11 +56,21 @@ public class AuthenticationController extends HttpServlet {
 
 			String email = (String) session.getAttribute("email");
 			String password = (String) session.getAttribute("password");
+			
+			String logout = request.getParameter("logout");
 
 			// Redirect use to the home page if already connected
-			if (email != null && password != null) {
-				response.sendRedirect(request.getServletContext().getContextPath() + "/");
+			if ((email == null || password == null) && logout != null) {
+				response.sendRedirect(request.getServletContext().getContextPath() + "/login");
 			} else {
+				
+				if( logout != null ) {
+					session.removeAttribute("email");
+					session.removeAttribute("password");
+					response.sendRedirect(request.getServletContext().getContextPath() + "/login");
+					return;
+				}
+				
 				String userEmail = request.getParameter("email");
 				String userPassword = request.getParameter("password");
 				

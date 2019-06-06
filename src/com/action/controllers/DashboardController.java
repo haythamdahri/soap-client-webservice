@@ -49,13 +49,17 @@ public class DashboardController extends HttpServlet {
 				// One parameter at least is required
 
 				if (addAction != null) {
-
+					renderedHtml = MainUtils.getRenderedActionForm(null, email, null);
 				} else if (updateAction != null) {
+					Long id = Long.parseLong(updateAction);
+					renderedHtml = MainUtils.getRenderedActionForm(id, email, null);
 
 				} else if (deleteAction != null) {
 
 				} else if (actionPage != null) {
-
+					// Display success message if operation done successflly
+					String success = request.getParameter("success") != null ? "Opération éffectuée avec succé!" : null;
+					renderedHtml = MainUtils.getAdminRenderedActions(email, success, null);
 				} else if (addBourse != null) {
 					renderedHtml = MainUtils.getRenderedBourseForm(null, email, null);
 				} else if (updateBourse != null) {
@@ -66,8 +70,8 @@ public class DashboardController extends HttpServlet {
 
 				} else if (boursePage != null) {
 					// Display success message if operation done successflly
-					String success = request.getParameter("success") != null ? "Les données sont enregistrées avec succé!" : null;
-					renderedHtml = MainUtils.getAdminRenderedBourses(email, success);
+					String success = request.getParameter("success") != null ? "Opération éffectuée avec succé!" : null;
+					renderedHtml = MainUtils.getAdminRenderedBourses(email, success, null);
 				} else {
 					response.sendRedirect(request.getServletContext().getContextPath() + "/dashboard?boursePage");
 				}
@@ -162,9 +166,19 @@ public class DashboardController extends HttpServlet {
 					}
 
 				} else if (deleteBourse != null) {
+					
+					String bourseId = request.getParameter("id");
+					boolean deleted = MainUtils.deleteBourse(Long.parseLong(bourseId));
+					if( deleted ) {
+						response.sendRedirect(request.getServletContext().getContextPath() + "/dashboard?boursePage&success");
+						return;
+					} else {
+						renderedHtml = MainUtils.getAdminRenderedBourses(email, null, "Une erreur est survenue, veuillez ressayer!");
+					}
+					
 
 				} else if (boursePage != null) {
-					renderedHtml = MainUtils.getAdminRenderedBourses(email, null);
+					renderedHtml = MainUtils.getAdminRenderedBourses(email, null, null);
 				} else {
 					response.sendRedirect(request.getServletContext().getContextPath() + "/dashboard?boursePage");
 				}

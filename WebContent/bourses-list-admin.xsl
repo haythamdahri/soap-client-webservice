@@ -20,7 +20,7 @@
 				<!-- Bootstrap CSS -->
 				<link rel="stylesheet" href="./static/css/all.min.css" />
 
-				<title>Client web service : Acceuil</title>
+				<title>Client web service : Liste des bourses</title>
 			</head>
 			<body>
 
@@ -78,11 +78,9 @@
 									</a>
 								</li>
 								<li class="nav-item">
-									<form style="margin: 0; padding: 0;"
-										action="/Currency-client/login" id="disconnect">
+									<form method="POST" style="margin: 0; padding: 0;" action="/Currency-client/login" id="disconnect">
 										<input type="hidden" name="logout" />
-										<a class="nav-link" style="cursor: pointer;"
-											onclick="this.form.submit();">
+										<a class="nav-link" style="cursor: pointer;" onclick="document.getElementById('disconnect').submit();">
 											<i class="fas fa-sign-out-alt"></i>
 											Se deconnecter
 										</a>
@@ -104,12 +102,18 @@
 				<div class="container">
 					<h1 class="display-4 text-center">
 						<i class="fas fa-exchange-alt"></i>
-						Administration des bourses <a href="/Currency-client/dashboard?addBourse"><button class="btn btn-primary btn-sm"><i class="fas fa-plus-circle"></i> Ajouter une nouvelle bourse</button></a>
+						Administration des bourses
+						<a href="/Currency-client/dashboard?addBourse">
+							<button class="btn btn-primary btn-sm">
+								<i class="fas fa-plus-circle"></i>
+								Ajouter une nouvelle bourse
+							</button>
+						</a>
 					</h1>
 
 					<xsl:if test="//@success">
 						<div class="alert alert-success" role="alert">
-							<i class="far fa-check-square mr-2"></i> 
+							<i class="far fa-check-square mr-2"></i>
 							<xsl:value-of select="//@success" />
 						</div>
 					</xsl:if>
@@ -199,11 +203,16 @@
 																<i class="fas fa-strikethrough"></i>
 																Annuler
 															</button>
-															<button type="submit"
-																class="btn btn-danger btn-sm">
-																<i class="fas fa-check-double"></i>
-																Oui, confirmer
-															</button>
+															<form action="/Currency-client/dashboard"
+																method="POST">
+																<input type="hidden" name="deleteBourse" />
+																<input type="hidden" name="id" value="{@ns1:id}" />
+																<button type="submit"
+																	class="btn btn-danger btn-sm">
+																	<i class="fas fa-check-double"></i>
+																	Oui, confirmer
+																</button>
+															</form>
 														</form>
 													</div>
 												</div>
