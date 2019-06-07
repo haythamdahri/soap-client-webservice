@@ -25,7 +25,7 @@
 			<body>
 				<!-- Navbar part -->
 				<nav class="navbar navbar-expand-lg navbar-light bg-light">
-					<a class="navbar-brand" href="/price-action">
+					<a class="navbar-brand" href="/Currency-client/price-action">
 						<i class="fab fa-aws"></i>
 						Client Prix Action
 					</a>
@@ -41,7 +41,7 @@
 						id="navbarSupportedContent">
 						<ul class="navbar-nav mr-auto">
 							<li class="nav-item active">
-								<a class="nav-link" href="/Currency-client">
+								<a class="nav-link" href="/Currency-client/price-action">
 									<i class="fas fa-home"></i>
 									Acceuil
 									<span class="sr-only">(current)</span>
@@ -144,7 +144,7 @@
 
 								<!-- Update bourse form -->
 								<form method="POST"
-									action="/Currency-client/dashboard?updateBourse">
+									action="/Currency-client/dashboard?persistBourse">
 
 									<div class="form-group">
 										<label>
@@ -163,7 +163,7 @@
 											<input type="text" class="form-control" value="##"
 												name="id" readonly="true" required="true"
 												placeholder="Id bourse" />
-											<input type="hidden" name="addBourse" />
+											<input type="hidden" name="addAction" />
 										</xsl:if>
 
 									</div>
@@ -175,7 +175,7 @@
 										</label>
 										<input type="text" class="form-control" name="name"
 											value="{ns1:action/ns1:name}"
-											placeholder="Saisir le nom de l'action" maxLength="50"
+											placeholder="Saisir le nom de l'action" maxlength="50"
 											minLength="5" required="true" />
 									</div>
 
@@ -187,7 +187,7 @@
 										<input type="number" class="form-control"
 											name="openingAmount" value="{ns1:action/ns1:openingAmount}"
 											placeholder="Saisir le montant d'ouverture"
-											maxValue="10000000" minValue="1" required="true" />
+											max="10000000" min="1" required="true" />
 									</div>
 
 									<div class="form-group">
@@ -198,7 +198,7 @@
 										<input type="number" class="form-control"
 											name="closingAmount" value="{ns1:action/ns1:closingAmount}"
 											placeholder="Saisir le montant de fermeture"
-											maxValue="10000000" minValue="1" required="true" />
+											max="10000000" min="1" required="true" />
 									</div>
 
 									<div class="form-group">
@@ -215,19 +215,19 @@
 									<div class="form-group">
 										<label for="exampleFormControlSelect1">
 											<i class="fas fa-building"></i>
-											Bourse <xsl:value-of select="ns1:action/ns1:bourse" />
+											Bourse 
 										</label>
 										<select class="form-control" name="bourse">
 											<xsl:for-each
 												select="//ns2:bourses/listeBourses/bourse">
 												<xsl:if test="@ns2:id = /ns1:action/ns1:bourse">
 													<option selected="true" value="{@ns2:id}">
-														<xsl:value-of select="@ns2:id" />
+														<xsl:value-of select="@ns2:id" /> | <xsl:value-of select="ns2:name" />
 													</option>
 												</xsl:if>
 												<xsl:if test="not(@ns2:id = /ns1:action/ns1:bourse)">
 													<option value="{@ns2:id}">
-														<xsl:value-of select="@ns2:id" />
+														<xsl:value-of select="@ns2:id" /> | <xsl:value-of select="ns2:name" />
 													</option>
 												</xsl:if>
 											</xsl:for-each>

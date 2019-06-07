@@ -131,6 +131,29 @@ public class DashboardController extends HttpServlet {
 
 				if (addAction != null) {
 
+					
+					Action persistedAction = new Action();
+					String name=  request.getParameter("name").trim();
+					String openingAmount=  request.getParameter("openingAmount").trim();
+					String closingAmount=  request.getParameter("closingAmount").trim();
+					String bourse = request.getParameter("bourse").trim();
+					String dateStr = request.getParameter("date");
+					Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);  
+					persistedAction.setName(name);
+					persistedAction.setOpeningAmount(Double.parseDouble(openingAmount));
+					persistedAction.setClosingAmount(Double.parseDouble(closingAmount));
+					persistedAction.setDate(date);
+					persistedAction.setBourseId(Long.parseLong(bourse));
+					
+					boolean persisted = MainUtils.persistAction(persistedAction);
+					if( persisted ) {
+						response.sendRedirect(request.getServletContext().getContextPath() + "/dashboard?actionPage&success");
+					} else {
+						Long actionId = Long.parseLong(addBourse);
+						renderedHtml = MainUtils.getRenderedActionForm(null, email, "Données invalides!");
+					}
+					return;
+					
 				} else if (updateAction != null) {
 					
 					String id = request.getParameter("id").trim();
@@ -159,6 +182,16 @@ public class DashboardController extends HttpServlet {
 
 				} else if (deleteAction != null) {
 
+					String actionId = request.getParameter("id");
+					boolean deleted = MainUtils.deleteAction(Long.parseLong(actionId));
+					if( deleted ) {
+						response.sendRedirect(request.getServletContext().getContextPath() + "/dashboard?actionPage&success");
+						return;
+					} else {
+						renderedHtml = MainUtils.getAdminRenderedBourses(email, null, "Une erreur est survenue, veuillez ressayer!");
+					}
+					
+					
 				} else if (actionPage != null) {
 
 				} else if (addBourse != null) {

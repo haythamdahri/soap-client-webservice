@@ -64,7 +64,7 @@ public class MainUtils {
 	/*
 	 * Actions list injector
 	 */
-	public static String injectBourses(String xmlData) throws RemoteException {
+	public static String injectBourses(String xmlData, String delimiter) throws RemoteException {
 		
 		// Retrieve actions list
 		PriceActionServiceImplStub stub = new PriceActionServiceImplStub();
@@ -72,7 +72,7 @@ public class MainUtils {
 		PriceActionServiceImplStub.GetBoursesResponse response = stub.getBourses(params);
 		String boursesXml = response.get_return();
 		
-		boursesXml = boursesXml.substring(boursesXml.indexOf("?>") + 1);
+		boursesXml = boursesXml.substring(boursesXml.indexOf(delimiter) + 1);
 		
 		// Inject the list
 		StringBuilder finalResults = new StringBuilder(xmlData).insert(xmlData.lastIndexOf("</") - 1, boursesXml);
@@ -364,10 +364,12 @@ public class MainUtils {
 			actionXml = injectUser(email, response.get_return());
 
 			// Inject bourses list message
-			actionXml = injectBourses(actionXml);
+			actionXml = injectBourses(actionXml, "?>");
 			
 		} else {
-			actionXml = "<connected-user email='\" + email + \"' />";
+			actionXml = "<connected-user email='\" + email + \"'></connected-user>";
+			// Inject bourses list message
+			actionXml = injectBourses(actionXml, "?>");
 		}
 		System.out.println(actionXml);
 
@@ -428,6 +430,18 @@ public class MainUtils {
 	}
 	
 	/*
+	 * Persist action
+	 */
+	public static boolean persistAction(Action persistedAction) throws TransformerException, RemoteException {
+
+		PriceActionServiceImplStub stub = new PriceActionServiceImplStub();
+		PriceActionServiceImplStub.AddAction params = new PriceActionServiceImplStub.AddAction();
+		params.setAction(persistedAction);
+		PriceActionServiceImplStub.AddActionResponse response = stub.addAction(params);
+		return response.get_return();
+	}
+	
+	/*
 	 * Delete bourse
 	 */
 	public static boolean deleteBourse(Long id) throws TransformerException, RemoteException {
@@ -436,6 +450,18 @@ public class MainUtils {
 		PriceActionServiceImplStub.DeleteBourse params = new PriceActionServiceImplStub.DeleteBourse();
 		params.setId(id);
 		PriceActionServiceImplStub.DeleteBourseResponse response = stub.deleteBourse(params);
+		return response.get_return();
+	}
+	
+	/*
+	 * Delete action
+	 */
+	public static boolean deleteAction(Long id) throws TransformerException, RemoteException {
+
+		PriceActionServiceImplStub stub = new PriceActionServiceImplStub();
+		PriceActionServiceImplStub.DeleteAction params = new PriceActionServiceImplStub.DeleteAction();
+		params.setId(id);
+		PriceActionServiceImplStub.DeleteActionResponse response = stub.deleteAction(params);
 		return response.get_return();
 	}
 	
@@ -452,6 +478,37 @@ public class MainUtils {
 
 		TransformerFactory factory = TransformerFactory.newInstance();
 		Source xslt = new StreamSource(new File(HOME_DIR + "/actions-list-admin.xsl"));
+		Transformer transformer = factory.newTransformer(xslt);
+
+		Source text = null;
+
+		if( success != null ) {
+			text = new StreamSource(new StringReader(injectSuccess(success, actionsXml)));
+		} else if( error != null ) {
+			text = new StreamSource(new StringReader(injectError(error, actionsXml)));
+		} else {
+			text = new StreamSource(new StringReader(actionsXml));
+		}
+		
+		StringWriter writer = new StringWriter();
+		transformer.transform(text, new StreamResult(writer));
+
+		return writer.toString();
+	}
+	
+	/*
+	 * Actions list xml parsing for admins
+	 */
+	public static String getRenderedHomePage(String email, String success, String error, Long actionId) throws TransformerException, RemoteException {
+
+		PriceActionServiceImplStub stub = new PriceActionServiceImplStub();
+		PriceActionServiceImplStub.GetActions params = new PriceActionServiceImplStub.GetActions();
+		PriceActionServiceImplStub.GetActionsResponse response = stub.getActions(params);
+		String actionsXml = injectUser(email, response.get_return());
+		System.out.println(actionsXml);
+
+		TransformerFactory factory = TransformerFactory.newInstance();
+		Source xslt = new StreamSource(new File(HOME_DIR + "/home.xsl"));
 		Transformer transformer = factory.newTransformer(xslt);
 
 		Source text = null;

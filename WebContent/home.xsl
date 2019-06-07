@@ -16,8 +16,11 @@
 				<!-- Bootstrap CSS -->
 				<link rel="stylesheet" href="./static/css/bootstrap.min.css" />
 
-				<!-- Bootstrap CSS -->
+				<!-- Fontawesome CSS -->
 				<link rel="stylesheet" href="./static/css/all.min.css" />
+
+				<!-- Chart CSS -->
+				<link rel="stylesheet" href="./static/css/Chart.min.css" />
 
 				<title>Client web service : Acceuil</title>
 			</head>
@@ -26,7 +29,7 @@
 
 				<!-- Navbar part -->
 				<nav class="navbar navbar-expand-lg navbar-light bg-light">
-					<a class="navbar-brand" href="/price-action">
+					<a class="navbar-brand" href="/Currency-client/price-action">
 						<i class="fab fa-aws"></i>
 						Client Prix Action
 					</a>
@@ -42,7 +45,7 @@
 						id="navbarSupportedContent">
 						<ul class="navbar-nav mr-auto">
 							<li class="nav-item active">
-								<a class="nav-link" href="/Currency-client">
+								<a class="nav-link" href="/Currency-client/price-action">
 									<i class="fas fa-home"></i>
 									Acceuil
 									<span class="sr-only">(current)</span>
@@ -81,21 +84,23 @@
 									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 										<a class="dropdown-item"
 											href="/Currency-client/dashboard?boursePage">
-											<i class="fas fa-building"></i> 
+											<i class="fas fa-building"></i>
 											Administration des bourses
 										</a>
 										<div class="dropdown-divider"></div>
 										<a class="dropdown-item"
 											href="/Currency-client/dashboard?actionPage">
-											<i class="fab fa-artstation"></i> 
+											<i class="fab fa-artstation"></i>
 											Administration des actions
 										</a>
 									</div>
 								</li>
 								<li class="nav-item">
-									<form method="POST" style="margin: 0; padding: 0;" action="/Currency-client/login" id="disconnect">
+									<form method="POST" style="margin: 0; padding: 0;"
+										action="/Currency-client/login" id="disconnect">
 										<input type="hidden" name="logout" />
-										<a class="nav-link" style="cursor: pointer;" onclick="document.getElementById('disconnect').submit();">
+										<a class="nav-link" style="cursor: pointer;"
+											onclick="document.getElementById('disconnect').submit();">
 											<i class="fas fa-sign-out-alt"></i>
 											Se deconnecter
 										</a>
@@ -117,23 +122,48 @@
 
 				<!-- Container -->
 				<div class="container">
-					<h1 class="display-4">Premiere Bourse du web service</h1>
-					<table class="table table-striped table-hover table-bordered">
-						<thead>
-							<tr>
-								<th>Id</th>
-								<th>Name</th>
-							</tr>
-							<tr>
-								<td>
-									<xsl:value-of select="ns1:bourse/@ns1:id" />
-								</td>
-								<td>
-									<xsl:value-of select="ns1:bourse/ns1:name" />
-								</td>
-							</tr>
-						</thead>
-					</table>
+					<h4 class="display-4 text-center">
+						<i class="fab fa-aws"></i>
+						Service Web des bourses
+					</h4>
+					<hr />
+
+
+					<div class="row">
+						<div
+							class="col-12 col-sm-12 col-md-6 col-lg-12 col-xl-6 ml-auto mr-auto text-center">
+							<p class="h1">Dernieres Actions</p>
+							<canvas id="myChart" width="400" height="400"></canvas>
+						</div>
+						<div
+							class="col-12 col-sm-12 col-md-6 col-lg-12 col-xl-6 ml-auto mr-auto text-center">
+							<p class="h1">Actions Évoluées</p>
+							<canvas id="myChart1" width="400" height="400"></canvas>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-12 col-sm-12 col-md-12 col-lh-12 col-xl-12">
+							<table
+								class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th>Id</th>
+										<th>Name</th>
+									</tr>
+									<tr>
+										<td>
+											<xsl:value-of select="ns1:bourse/@ns1:id" />
+										</td>
+										<td>
+											<xsl:value-of select="ns1:bourse/ns1:name" />
+										</td>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+
 				</div>
 
 				<!-- Optional JavaScript -->
@@ -141,7 +171,90 @@
 				<script src="./static/js/jquery.min.js"></script>
 				<script src="./static/js/popper.min.js"></script>
 				<script src="./static/js/all.min.js"></script>
+				<script src="./static/js/Chart.min.js"></script>
 				<script src="./static/js/bootstrap.min.js"></script>
+
+
+
+				<script>
+					var ctx = document.getElementById('myChart');
+					var myChart = new Chart(ctx, {
+					type: 'bar',
+					data: {
+					labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+					datasets: [{
+					label: '# of Votes',
+					data: [12, 19, 3, 5, 2, 3],
+					backgroundColor: [
+					'rgba(255, 99, 132, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(255, 206, 86, 0.2)',
+					'rgba(75, 192, 192, 0.2)',
+					'rgba(153, 102, 255, 0.2)',
+					'rgba(255, 159, 64, 0.2)'
+					],
+					borderColor: [
+					'rgba(255, 99, 132, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(255, 206, 86, 1)',
+					'rgba(75, 192, 192, 1)',
+					'rgba(153, 102, 255, 1)',
+					'rgba(255, 159, 64, 1)'
+					],
+					borderWidth: 1
+					}]
+					},
+					options: {
+					scales: {
+					yAxes: [{
+					ticks: {
+					beginAtZero: true
+					}
+					}]
+					}
+					}
+					});
+
+					var ctx1 = document.getElementById('myChart1');
+					var myChart = new Chart(ctx1, {
+					type: 'bar',
+					data: {
+					labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+					datasets: [{
+					label: '# of Votes',
+					data: [12, 19, 3, 5, 2, 3],
+					backgroundColor: [
+					'rgba(255, 99, 132, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(255, 206, 86, 0.2)',
+					'rgba(75, 192, 192, 0.2)',
+					'rgba(153, 102, 255, 0.2)',
+					'rgba(255, 159, 64, 0.2)'
+					],
+					borderColor: [
+					'rgba(255, 99, 132, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(255, 206, 86, 1)',
+					'rgba(75, 192, 192, 1)',
+					'rgba(153, 102, 255, 1)',
+					'rgba(255, 159, 64, 1)'
+					],
+					borderWidth: 1
+					}]
+					},
+					options: {
+					scales: {
+					yAxes: [{
+					ticks: {
+					beginAtZero: true
+					}
+					}]
+					}
+					}
+					});
+				</script>
+
+
 			</body>
 		</html>
 	</xsl:template>

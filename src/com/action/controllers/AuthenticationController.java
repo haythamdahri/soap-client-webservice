@@ -79,7 +79,7 @@ public class AuthenticationController extends HttpServlet {
 				if( isValid ) {
 					session.setAttribute("email", userEmail);
 					session.setAttribute("password", MainUtils.getPasswordHash(userPassword));
-					response.sendRedirect(request.getServletContext().getContextPath() + "/bourses");
+					response.sendRedirect(request.getServletContext().getContextPath() + "/dashboard");
 				} else {
 					response.sendRedirect(request.getServletContext().getContextPath() + "/login?error");
 				}

@@ -26,7 +26,7 @@
 
 				<!-- Navbar part -->
 				<nav class="navbar navbar-expand-lg navbar-light bg-light">
-					<a class="navbar-brand" href="/price-action">
+					<a class="navbar-brand" href="/Currency-client/price-action">
 						<i class="fab fa-aws"></i>
 						Client Prix Action
 					</a>
@@ -42,7 +42,7 @@
 						id="navbarSupportedContent">
 						<ul class="navbar-nav mr-auto">
 							<li class="nav-item active">
-								<a class="nav-link" href="/Currency-client">
+								<a class="nav-link" href="/Currency-client/price-action">
 									<i class="fas fa-home"></i>
 									Acceuil
 									<span class="sr-only">(current)</span>
