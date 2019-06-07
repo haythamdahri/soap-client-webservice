@@ -374,7 +374,7 @@
 
 					// Draw actions evolution
 					drawGraph("myChart",
-					"Évolution des actions",
+					"Évolution des actions | Variation",
 					`
 					<xsl:value-of
 						select="/ns2:actions/listeActions/actions[1]/ns2:name" />
@@ -426,7 +426,7 @@
 					`);
 
 					drawGraph("myChart1",
-					"Évolution des bourses",
+					"Évolution des bourses | Nombre des actions",
 					`
 					<xsl:value-of
 						select="//ns2:bourses/listeBourses/bourse[1]/ns2:name" />
