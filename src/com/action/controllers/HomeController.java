@@ -25,7 +25,16 @@ public class HomeController extends HttpServlet {
 			String email = (String) session.getAttribute("email");
 			String password = (String) session.getAttribute("password");
 			
-			String renderedHtml = MainUtils.getRenderedHomePage(email, null, null, null);
+			// Action name parameter
+			String actionName = request.getParameter("action");
+			
+			String renderedHtml = "";
+			
+			if( actionName == null ) {
+				renderedHtml = MainUtils.getRenderedHomePage(email, null, null, null);	
+			} else {
+				renderedHtml = MainUtils.getRenderedHomePage(email, null, null, actionName);	
+			}
 			
 			Writer writer = response.getWriter();
 

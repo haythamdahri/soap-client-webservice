@@ -81,21 +81,23 @@
 									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 										<a class="dropdown-item"
 											href="/Currency-client/dashboard?boursePage">
-											<i class="fas fa-building"></i> 
+											<i class="fas fa-building"></i>
 											Administration des bourses
 										</a>
 										<div class="dropdown-divider"></div>
 										<a class="dropdown-item"
 											href="/Currency-client/dashboard?actionPage">
-											<i class="fab fa-artstation"></i> 
+											<i class="fab fa-artstation"></i>
 											Administration des actions
 										</a>
 									</div>
 								</li>
 								<li class="nav-item">
-									<form method="POST" style="margin: 0; padding: 0;" action="/Currency-client/login" id="disconnect">
+									<form method="POST" style="margin: 0; padding: 0;"
+										action="/Currency-client/login" id="disconnect">
 										<input type="hidden" name="logout" />
-										<a class="nav-link" style="cursor: pointer;" onclick="document.getElementById('disconnect').submit();">
+										<a class="nav-link" style="cursor: pointer;"
+											onclick="document.getElementById('disconnect').submit();">
 											<i class="fas fa-sign-out-alt"></i>
 											Se deconnecter
 										</a>
@@ -104,11 +106,11 @@
 							</xsl:if>
 
 						</ul>
-						<form class="form-inline my-2 my-lg-0">
-							<input class="form-control mr-sm-2" type="search"
-								placeholder="Recherche..." aria-label="Search" />
+						<form method="GET" action="/Currency-client/actions" class="form-inline my-2 my-lg-0">
+							<input class="form-control mr-sm-2" type="search" name="name"
+								placeholder="Recherche d'une action..." aria-label="Search" />
 							<button class="btn btn-outline-success my-2 my-sm-0"
-								type="submit">Chercher</button>
+								type="submit"><i class="fas fa-search"></i> Chercher</button>
 						</form>
 					</div>
 				</nav>

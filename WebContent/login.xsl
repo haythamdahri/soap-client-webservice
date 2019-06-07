@@ -77,9 +77,11 @@
 									</a>
 								</li>
 								<li class="nav-item">
-									<form style="margin: 0; padding: 0;" action="/Currency-client/login" id="disconnect">
+									<form method="POST" style="margin: 0; padding: 0;"
+										action="/Currency-client/login" id="disconnect">
 										<input type="hidden" name="logout" />
-										<a class="nav-link" style="cursor: pointer;" onclick="document.getElementById('disconnect').submit();">
+										<a class="nav-link" style="cursor: pointer;"
+											onclick="document.getElementById('disconnect').submit();">
 											<i class="fas fa-sign-out-alt"></i>
 											Se deconnecter
 										</a>
@@ -88,16 +90,16 @@
 							</xsl:if>
 
 						</ul>
-						<form class="form-inline my-2 my-lg-0">
-							<input class="form-control mr-sm-2" type="search"
-								placeholder="Recherche..." aria-label="Search" />
+						<form method="GET" action="/Currency-client/actions" class="form-inline my-2 my-lg-0">
+							<input class="form-control mr-sm-2" type="search" name="name"
+								placeholder="Recherche d'une action..." aria-label="Search" />
 							<button class="btn btn-outline-success my-2 my-sm-0"
-								type="submit">Chercher</button>
+								type="submit"><i class="fas fa-search"></i> Chercher</button>
 						</form>
 					</div>
 				</nav>
-				
-				
+
+
 				<!-- Container -->
 				<div class="container">
 					<h1 class="display-4 text-center">
@@ -107,7 +109,8 @@
 
 					<div class="card">
 						<div class="card-header">
-							<i class="far fa-user-circle"></i> Authentification
+							<i class="far fa-user-circle"></i>
+							Authentification
 						</div>
 						<div class="card-body">
 							<h5 class="card-title">
@@ -118,7 +121,8 @@
 
 								<xsl:if test="//@error">
 									<div class="alert alert-danger" role="alert">
-										<i class="fas fa-exclamation-triangle"></i> Email ou mot de passe est non valide!
+										<i class="fas fa-exclamation-triangle"></i>
+										Email ou mot de passe est non valide!
 									</div>
 								</xsl:if>
 
@@ -137,8 +141,8 @@
 											<i class="fas fa-unlock-alt"></i>
 											Mot de passe
 										</label>
-										<input type="password" class="form-control" name="password"
-											placeholder="Saisir votre mot de passe" />
+										<input type="password" class="form-control"
+											name="password" placeholder="Saisir votre mot de passe" />
 									</div>
 									<button type="submit" class="btn btn-primary btn-sm">
 										<i class="fas fa-sign-in-alt"></i>

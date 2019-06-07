@@ -80,13 +80,13 @@
 									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 										<a class="dropdown-item"
 											href="/Currency-client/dashboard?boursePage">
-											<i class="fas fa-building"></i> 
+											<i class="fas fa-building"></i>
 											Administration des bourses
 										</a>
 										<div class="dropdown-divider"></div>
 										<a class="dropdown-item"
 											href="/Currency-client/dashboard?actionPage">
-											<i class="fab fa-artstation"></i> 
+											<i class="fab fa-artstation"></i>
 											Administration des actions
 										</a>
 									</div>
@@ -105,11 +105,13 @@
 							</xsl:if>
 
 						</ul>
-						<form class="form-inline my-2 my-lg-0">
+						<form method="GET" action="/Currency-client/actions"
+							class="form-inline my-2 my-lg-0">
 							<input class="form-control mr-sm-2" type="search"
-								placeholder="Recherche..." aria-label="Search" />
+								name="name" placeholder="Recherche d'une action..."
+								aria-label="Search" />
 							<button class="btn btn-outline-success my-2 my-sm-0"
-								type="submit">Chercher</button>
+								type="submit"><i class="fas fa-search"></i> Chercher</button>
 						</form>
 					</div>
 				</nav>
@@ -186,8 +188,8 @@
 										</label>
 										<input type="number" class="form-control"
 											name="openingAmount" value="{ns1:action/ns1:openingAmount}"
-											placeholder="Saisir le montant d'ouverture"
-											max="10000000" min="1" required="true" />
+											placeholder="Saisir le montant d'ouverture" max="10000000"
+											min="1" required="true" />
 									</div>
 
 									<div class="form-group">
@@ -197,8 +199,8 @@
 										</label>
 										<input type="number" class="form-control"
 											name="closingAmount" value="{ns1:action/ns1:closingAmount}"
-											placeholder="Saisir le montant de fermeture"
-											max="10000000" min="1" required="true" />
+											placeholder="Saisir le montant de fermeture" max="10000000"
+											min="1" required="true" />
 									</div>
 
 									<div class="form-group">
@@ -206,28 +208,31 @@
 											<i class="fas fa-calendar-week"></i>
 											Date
 										</label>
-										<input type="date" class="form-control"
-											name="date" value="{ns1:action/ns1:date}"
-											placeholder="JJ/MM/AAAA" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}"
-											required="true" />
+										<input type="date" class="form-control" name="date"
+											value="{ns1:action/ns1:date}" placeholder="JJ/MM/AAAA"
+											pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" required="true" />
 									</div>
 
 									<div class="form-group">
 										<label for="exampleFormControlSelect1">
 											<i class="fas fa-building"></i>
-											Bourse 
+											Bourse
 										</label>
 										<select class="form-control" name="bourse">
 											<xsl:for-each
 												select="//ns2:bourses/listeBourses/bourse">
 												<xsl:if test="@ns2:id = /ns1:action/ns1:bourse">
 													<option selected="true" value="{@ns2:id}">
-														<xsl:value-of select="@ns2:id" /> | <xsl:value-of select="ns2:name" />
+														<xsl:value-of select="@ns2:id" />
+														|
+														<xsl:value-of select="ns2:name" />
 													</option>
 												</xsl:if>
 												<xsl:if test="not(@ns2:id = /ns1:action/ns1:bourse)">
 													<option value="{@ns2:id}">
-														<xsl:value-of select="@ns2:id" /> | <xsl:value-of select="ns2:name" />
+														<xsl:value-of select="@ns2:id" />
+														|
+														<xsl:value-of select="ns2:name" />
 													</option>
 												</xsl:if>
 											</xsl:for-each>

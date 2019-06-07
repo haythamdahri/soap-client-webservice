@@ -34,7 +34,7 @@ public class MainUtils {
 			return xmlData;
 		}
 	}
-	
+
 	/*
 	 * Error injector
 	 */
@@ -47,7 +47,7 @@ public class MainUtils {
 			return xmlData;
 		}
 	}
-	
+
 	/*
 	 * Success injector
 	 */
@@ -60,23 +60,32 @@ public class MainUtils {
 			return xmlData;
 		}
 	}
-	
+
+	/*
+	 * Xml Data injector
+	 */
+	public static String injectData(String existedData, String newData) {
+
+		StringBuilder finalResults = new StringBuilder(existedData).insert(existedData.lastIndexOf("</") - 1, newData);
+		return finalResults.toString();
+	}
+
 	/*
 	 * Actions list injector
 	 */
 	public static String injectBourses(String xmlData, String delimiter) throws RemoteException {
-		
+
 		// Retrieve actions list
 		PriceActionServiceImplStub stub = new PriceActionServiceImplStub();
 		PriceActionServiceImplStub.GetBourses params = new PriceActionServiceImplStub.GetBourses();
 		PriceActionServiceImplStub.GetBoursesResponse response = stub.getBourses(params);
 		String boursesXml = response.get_return();
-		
+
 		boursesXml = boursesXml.substring(boursesXml.indexOf(delimiter) + 1);
-		
+
 		// Inject the list
 		StringBuilder finalResults = new StringBuilder(xmlData).insert(xmlData.lastIndexOf("</") - 1, boursesXml);
-		
+
 		// Return final results
 		return finalResults.toString();
 	}
@@ -279,7 +288,8 @@ public class MainUtils {
 	/*
 	 * Bourse list xml parsing for admins
 	 */
-	public static String getAdminRenderedBourses(String email, String success, String error) throws TransformerException, RemoteException {
+	public static String getAdminRenderedBourses(String email, String success, String error)
+			throws TransformerException, RemoteException {
 
 		PriceActionServiceImplStub stub = new PriceActionServiceImplStub();
 		PriceActionServiceImplStub.GetBourses params = new PriceActionServiceImplStub.GetBourses();
@@ -293,14 +303,14 @@ public class MainUtils {
 
 		Source text = null;
 
-		if( success != null ) {
+		if (success != null) {
 			text = new StreamSource(new StringReader(injectSuccess(success, boursesXml)));
-		} else if( error != null ) {
+		} else if (error != null) {
 			text = new StreamSource(new StringReader(injectError(error, boursesXml)));
 		} else {
 			text = new StreamSource(new StringReader(boursesXml));
 		}
-		
+
 		StringWriter writer = new StringWriter();
 		transformer.transform(text, new StreamResult(writer));
 
@@ -310,11 +320,12 @@ public class MainUtils {
 	/*
 	 * Bourse form xml parsing for admins
 	 */
-	public static String getRenderedBourseForm(Long id, String email, String error) throws TransformerException, RemoteException {
+	public static String getRenderedBourseForm(Long id, String email, String error)
+			throws TransformerException, RemoteException {
 
 		String bourseXml = "";
-		
-		if( id != null ) {
+
+		if (id != null) {
 			PriceActionServiceImplStub stub = new PriceActionServiceImplStub();
 			PriceActionServiceImplStub.GetBourse params = new PriceActionServiceImplStub.GetBourse();
 			params.setId(id);
@@ -337,25 +348,24 @@ public class MainUtils {
 		} else {
 			text = new StreamSource(new StringReader(bourseXml));
 		}
-		
+
 		// Inject success message
-		
-		
-		
+
 		StringWriter writer = new StringWriter();
 		transformer.transform(text, new StreamResult(writer));
 
 		return writer.toString();
 	}
-	
+
 	/*
 	 * Action form xml parsing for admins
 	 */
-	public static String getRenderedActionForm(Long id, String email, String error) throws TransformerException, RemoteException {
+	public static String getRenderedActionForm(Long id, String email, String error)
+			throws TransformerException, RemoteException {
 
 		String actionXml = "";
-		
-		if( id != null ) {
+
+		if (id != null) {
 			PriceActionServiceImplStub stub = new PriceActionServiceImplStub();
 			PriceActionServiceImplStub.GetAction params = new PriceActionServiceImplStub.GetAction();
 			params.setId(id);
@@ -365,7 +375,7 @@ public class MainUtils {
 
 			// Inject bourses list message
 			actionXml = injectBourses(actionXml, "?>");
-			
+
 		} else {
 			actionXml = "<connected-user email='\" + email + \"'></connected-user>";
 			// Inject bourses list message
@@ -384,9 +394,7 @@ public class MainUtils {
 		} else {
 			text = new StreamSource(new StringReader(actionXml));
 		}
-		
-		
-		
+
 		StringWriter writer = new StringWriter();
 		transformer.transform(text, new StreamResult(writer));
 
@@ -404,7 +412,7 @@ public class MainUtils {
 		PriceActionServiceImplStub.UpdateBourseResponse response = stub.updateBourse(params);
 		return response.get_return();
 	}
-	
+
 	/*
 	 * Update bourse
 	 */
@@ -416,7 +424,7 @@ public class MainUtils {
 		PriceActionServiceImplStub.UpdateActionResponse response = stub.updateAction(params);
 		return response.get_return();
 	}
-	
+
 	/*
 	 * Persist bourse
 	 */
@@ -428,7 +436,7 @@ public class MainUtils {
 		PriceActionServiceImplStub.AddBourseResponse response = stub.addBourse(params);
 		return response.get_return();
 	}
-	
+
 	/*
 	 * Persist action
 	 */
@@ -440,7 +448,7 @@ public class MainUtils {
 		PriceActionServiceImplStub.AddActionResponse response = stub.addAction(params);
 		return response.get_return();
 	}
-	
+
 	/*
 	 * Delete bourse
 	 */
@@ -452,7 +460,7 @@ public class MainUtils {
 		PriceActionServiceImplStub.DeleteBourseResponse response = stub.deleteBourse(params);
 		return response.get_return();
 	}
-	
+
 	/*
 	 * Delete action
 	 */
@@ -464,11 +472,12 @@ public class MainUtils {
 		PriceActionServiceImplStub.DeleteActionResponse response = stub.deleteAction(params);
 		return response.get_return();
 	}
-	
+
 	/*
 	 * Actions list xml parsing for admins
 	 */
-	public static String getAdminRenderedActions(String email, String success, String error) throws TransformerException, RemoteException {
+	public static String getAdminRenderedActions(String email, String success, String error)
+			throws TransformerException, RemoteException {
 
 		PriceActionServiceImplStub stub = new PriceActionServiceImplStub();
 		PriceActionServiceImplStub.GetActions params = new PriceActionServiceImplStub.GetActions();
@@ -482,45 +491,82 @@ public class MainUtils {
 
 		Source text = null;
 
-		if( success != null ) {
+		if (success != null) {
 			text = new StreamSource(new StringReader(injectSuccess(success, actionsXml)));
-		} else if( error != null ) {
+		} else if (error != null) {
 			text = new StreamSource(new StringReader(injectError(error, actionsXml)));
 		} else {
 			text = new StreamSource(new StringReader(actionsXml));
 		}
-		
+
 		StringWriter writer = new StringWriter();
 		transformer.transform(text, new StreamResult(writer));
 
 		return writer.toString();
 	}
-	
+
 	/*
 	 * Actions list xml parsing for admins
 	 */
-	public static String getRenderedHomePage(String email, String success, String error, Long actionId) throws TransformerException, RemoteException {
+	public static String getRenderedHomePage(String email, String success, String error, String actionName)
+			throws TransformerException, RemoteException {
 
+		// Retrieve actions xml from web service
 		PriceActionServiceImplStub stub = new PriceActionServiceImplStub();
-		PriceActionServiceImplStub.GetActions params = new PriceActionServiceImplStub.GetActions();
-		PriceActionServiceImplStub.GetActionsResponse response = stub.getActions(params);
+		PriceActionServiceImplStub.GetActiveActions params = new PriceActionServiceImplStub.GetActiveActions();
+		PriceActionServiceImplStub.GetActiveActionsResponse response = stub.getActiveActions(params);
 		String actionsXml = injectUser(email, response.get_return());
-		System.out.println(actionsXml);
 
+		// Retrieve bourses from web service
+		PriceActionServiceImplStub.GetActiveBourses newParams = new PriceActionServiceImplStub.GetActiveBourses();
+		PriceActionServiceImplStub.GetActiveBoursesResponse newResponse = stub.getActiveBourses(newParams);
+		String boursesXml = newResponse.get_return();
+		boursesXml = boursesXml.substring(boursesXml.indexOf("?>") + 1);
+		
+		// Retrieve bourses from web service
+		PriceActionServiceImplStub.GetBourses parameters = new PriceActionServiceImplStub.GetBourses();
+		PriceActionServiceImplStub.GetBoursesResponse res = stub.getBourses(parameters);
+		String allBoursesXml = res.get_return();
+		allBoursesXml = allBoursesXml.substring(allBoursesXml.indexOf("?>") + 1);
+
+		// Retrieve all action from web service
+		PriceActionServiceImplStub.GetActions latestParams = new PriceActionServiceImplStub.GetActions();
+		PriceActionServiceImplStub.GetActionsResponse latestResponse = stub.getActions(latestParams);
+		String allActionsXml = latestResponse.get_return();
+		allActionsXml = allActionsXml.substring(allActionsXml.indexOf("?>") + 1);
+
+		// Inject bourses inside actions + Remove XML head tag
+		String homeXml = injectData(actionsXml, boursesXml);
+		String xmlNewData = injectData(homeXml, allActionsXml);
+		String finalXml = injectData(xmlNewData, allBoursesXml);
+
+		
+		if( actionName != null ) {
+			PriceActionServiceImplStub.GetActionHistory nsParams = new PriceActionServiceImplStub.GetActionHistory();
+			nsParams.setName(actionName);
+			PriceActionServiceImplStub.GetActionHistoryResponse nsResponse = stub.getActionHistory(nsParams);
+			String xml = nsResponse.get_return();
+			xml = xml.substring(xml.indexOf("?>") + 1);
+			finalXml = injectData(finalXml, xml);
+					
+		}
+		
+		System.out.println(finalXml);
+		
 		TransformerFactory factory = TransformerFactory.newInstance();
 		Source xslt = new StreamSource(new File(HOME_DIR + "/home.xsl"));
 		Transformer transformer = factory.newTransformer(xslt);
 
 		Source text = null;
 
-		if( success != null ) {
-			text = new StreamSource(new StringReader(injectSuccess(success, actionsXml)));
-		} else if( error != null ) {
-			text = new StreamSource(new StringReader(injectError(error, actionsXml)));
+		if (success != null) {
+			text = new StreamSource(new StringReader(injectSuccess(success, finalXml)));
+		} else if (error != null) {
+			text = new StreamSource(new StringReader(injectError(error, finalXml)));
 		} else {
-			text = new StreamSource(new StringReader(actionsXml));
+			text = new StreamSource(new StringReader(finalXml));
 		}
-		
+
 		StringWriter writer = new StringWriter();
 		transformer.transform(text, new StreamResult(writer));
 

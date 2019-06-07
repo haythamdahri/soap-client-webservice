@@ -149,7 +149,6 @@ public class DashboardController extends HttpServlet {
 					if( persisted ) {
 						response.sendRedirect(request.getServletContext().getContextPath() + "/dashboard?actionPage&success");
 					} else {
-						Long actionId = Long.parseLong(addBourse);
 						renderedHtml = MainUtils.getRenderedActionForm(null, email, "Données invalides!");
 					}
 					return;
@@ -204,7 +203,6 @@ public class DashboardController extends HttpServlet {
 					if( persisted ) {
 						response.sendRedirect(request.getServletContext().getContextPath() + "/dashboard?boursePage&success");
 					} else {
-						Long bourseId = Long.parseLong(addBourse);
 						renderedHtml = MainUtils.getRenderedBourseForm(null, email, "Données invalides!");
 					}
 					return;

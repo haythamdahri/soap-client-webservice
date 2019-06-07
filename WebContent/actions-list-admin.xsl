@@ -109,11 +109,11 @@
 							</xsl:if>
 
 						</ul>
-						<form class="form-inline my-2 my-lg-0">
-							<input class="form-control mr-sm-2" type="search"
-								placeholder="Recherche..." aria-label="Search" />
+						<form method="GET" action="/Currency-client/actions" class="form-inline my-2 my-lg-0">
+							<input class="form-control mr-sm-2" type="search" name="name"
+								placeholder="Recherche d'une action..." aria-label="Search" />
 							<button class="btn btn-outline-success my-2 my-sm-0"
-								type="submit">Chercher</button>
+								type="submit"><i class="fas fa-search"></i> Chercher</button>
 						</form>
 					</div>
 				</nav>
@@ -212,7 +212,7 @@
 										<a href="/Currency-client/actions?name={ns2:name}">
 											<button class="btn btn-primary btn-sm">
 												<i class="fas fa-list"></i>
-												Informations de la bourse
+												Historique de l'action
 											</button>
 										</a>
 									</td>

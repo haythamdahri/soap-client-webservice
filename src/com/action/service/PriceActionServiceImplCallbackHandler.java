@@ -77,22 +77,6 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for getAdmins method
-            * override this method for handling normal response from getAdmins operation
-            */
-           public void receiveResultgetAdmins(
-                    com.action.service.PriceActionServiceImplStub.GetAdminsResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from getAdmins operation
-           */
-            public void receiveErrorgetAdmins(java.lang.Exception e) {
-            }
-                
-           /**
             * auto generated Axis2 call back method for getActions method
             * override this method for handling normal response from getActions operation
             */
@@ -141,22 +125,6 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for updateAdmin method
-            * override this method for handling normal response from updateAdmin operation
-            */
-           public void receiveResultupdateAdmin(
-                    com.action.service.PriceActionServiceImplStub.UpdateAdminResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from updateAdmin operation
-           */
-            public void receiveErrorupdateAdmin(java.lang.Exception e) {
-            }
-                
-           /**
             * auto generated Axis2 call back method for getBourses method
             * override this method for handling normal response from getBourses operation
             */
@@ -170,6 +138,22 @@
            * override this method for handling error response from getBourses operation
            */
             public void receiveErrorgetBourses(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getActiveBourses method
+            * override this method for handling normal response from getActiveBourses operation
+            */
+           public void receiveResultgetActiveBourses(
+                    com.action.service.PriceActionServiceImplStub.GetActiveBoursesResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getActiveBourses operation
+           */
+            public void receiveErrorgetActiveBourses(java.lang.Exception e) {
             }
                 
            /**
@@ -285,6 +269,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getActiveActions method
+            * override this method for handling normal response from getActiveActions operation
+            */
+           public void receiveResultgetActiveActions(
+                    com.action.service.PriceActionServiceImplStub.GetActiveActionsResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getActiveActions operation
+           */
+            public void receiveErrorgetActiveActions(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for updateAction method
             * override this method for handling normal response from updateAction operation
             */
@@ -298,22 +298,6 @@
            * override this method for handling error response from updateAction operation
            */
             public void receiveErrorupdateAction(java.lang.Exception e) {
-            }
-                
-           /**
-            * auto generated Axis2 call back method for deleteAdmin method
-            * override this method for handling normal response from deleteAdmin operation
-            */
-           public void receiveResultdeleteAdmin(
-                    com.action.service.PriceActionServiceImplStub.DeleteAdminResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from deleteAdmin operation
-           */
-            public void receiveErrordeleteAdmin(java.lang.Exception e) {
             }
                 
            /**

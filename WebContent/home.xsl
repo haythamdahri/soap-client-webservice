@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:ns1="http://www.prix-action.ma">
+	xmlns:ns1="http://www.prix-action.ma"
+	xmlns:ns2="http://www.prix-action.ma">
 	<xsl:output method="html" encoding="UTF-8" indent="yes" />
 	<xsl:template match="/">
 		<html lang="en">
@@ -109,11 +110,16 @@
 							</xsl:if>
 
 						</ul>
-						<form class="form-inline my-2 my-lg-0">
+						<form method="GET" action="/Currency-client/actions"
+							class="form-inline my-2 my-lg-0">
 							<input class="form-control mr-sm-2" type="search"
-								placeholder="Recherche..." aria-label="Search" />
+								name="name" placeholder="Recherche d'une action..."
+								aria-label="Search" />
 							<button class="btn btn-outline-success my-2 my-sm-0"
-								type="submit">Chercher</button>
+								type="submit">
+								<i class="fas fa-search"></i>
+								Chercher
+							</button>
 						</form>
 					</div>
 				</nav>
@@ -129,42 +135,227 @@
 					<hr />
 
 
-					<div class="row">
+					<div class="row mb-5">
 						<div
 							class="col-12 col-sm-12 col-md-6 col-lg-12 col-xl-6 ml-auto mr-auto text-center">
-							<p class="h1">Dernieres Actions</p>
+							<p class="h1">
+								<i class="fas fa-charging-station"></i>
+								Actions évoluées
+							</p>
 							<canvas id="myChart" width="400" height="400"></canvas>
 						</div>
 						<div
 							class="col-12 col-sm-12 col-md-6 col-lg-12 col-xl-6 ml-auto mr-auto text-center">
-							<p class="h1">Actions Évoluées</p>
+							<p class="h1">
+								<i class="fab fa-yandex-international"></i>
+								Bourses Évoluées
+							</p>
 							<canvas id="myChart1" width="400" height="400"></canvas>
 						</div>
 					</div>
+					
+					
+					<!-- All actions history -->
+					<div class="row mb-5">
+						<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+							<canvas id="allActionsLineChart" width="400" height="400"></canvas>
+						</div>
+					</div>
+					
 
-					<div class="row">
-						<div class="col-12 col-sm-12 col-md-12 col-lh-12 col-xl-12">
-							<table
-								class="table table-striped table-hover table-bordered">
-								<thead>
-									<tr>
-										<th>Id</th>
-										<th>Name</th>
-									</tr>
-									<tr>
-										<td>
-											<xsl:value-of select="ns1:bourse/@ns1:id" />
-										</td>
-										<td>
-											<xsl:value-of select="ns1:bourse/ns1:name" />
-										</td>
-									</tr>
-								</thead>
-							</table>
+					<!-- Price action form -->
+					<div class="row mb-5 mb-5">
+						<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+							<div class="card">
+								<div class="card-header">
+									<i class="fab fa-searchengin"></i>
+									Prix Action
+								</div>
+								<div class="card-body">
+									<h5 class="card-title">
+										<i class="fas fa-mouse-pointer"></i>
+										Choisir une action
+									</h5>
+									<p class="card-text">
+										<form method="GET">
+											<div class="form-group">
+												<label for="exampleFormControlSelect1">
+													<i class="fas fa-directions"></i>
+													Action
+												</label>
+												<select class="form-control" name="action">
+													<xsl:for-each
+														select="/ns2:actions/ns2:actions/listeActions/actions">
+														<xsl:param name="bourseId" select="ns2:bourse" />
+														<option value="{ns2:name}">
+															<xsl:value-of select="ns2:name" />
+															| Bourse:
+															<xsl:value-of
+																select="//ns2:bourses[2]/listeBourses/bourse[@ns2:id=$bourseId]" />
+														</option>
+													</xsl:for-each>
+												</select>
+											</div>
+											<button type="submit" class="btn btn-primary">
+												<i class="fas fa-search-dollar"></i>
+												Lancer la recherche
+											</button>
+										</form>
+									</p>
+								</div>
+							</div>
 						</div>
 					</div>
 
+
+
+					<!-- If user start the search -->
+					<xsl:if test="//ns2:actions[2]/listeActions/actions">
+						<div class="row mb-5">
+							<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+								<xsl:if
+									test="count(//ns2:actions[2]/listeActions/actions) >= 1">
+									<h1 class="display-4 text-center">
+										<i class="fas fa-search-location"></i>
+										Historique de l'action:
+										<div class="row">
+											<div class="col lead">
+												<i class="fas fa-fingerprint"></i>
+												:
+												<strong>
+													<xsl:value-of
+														select="//ns2:actions[2]/listeActions/actions[1]/@ns2:id" />
+												</strong>
+											</div>
+											<div class="col lead">
+												<i class="fas fa-terminal"></i>
+												:
+												<strong>
+													<xsl:value-of
+														select="//ns2:actions[2]/listeActions/actions[1]/ns2:name" />
+												</strong>
+											</div>
+										</div>
+									</h1>
+								</xsl:if>
+								<table
+									class="table table-striped table-hover table-bordered mt-4">
+									<thead class="thead-light">
+										<tr class="text-center">
+											<th scope="col">#</th>
+											<th scope="col">
+												<i class="fas fa-signature"></i>
+												Nom
+											</th>
+											<th scope="col">
+												<i class="fas fa-table"></i>
+												Date
+											</th>
+											<th scope="col">
+												<i class="fas fa-cash-register"></i>
+												Variation
+											</th>
+											<th scope="col">
+												<i class="fas fa-rss"></i>
+												Ouberture
+											</th>
+											<th scope="col">
+												<i class="fas fa-rss-square"></i>
+												Clôture
+											</th>
+											<th scope="col">
+												<i class="fas fa-building"></i>
+												Bourse
+											</th>
+										</tr>
+										<xsl:for-each
+											select="//ns2:actions[2]/listeActions/actions">
+											<tr class="text-center">
+												<td scope="row">
+													<xsl:value-of select="@ns2:id" />
+												</td>
+												<td>
+													<xsl:value-of select="ns2:name" />
+												</td>
+												<td>
+													<xsl:value-of select="ns2:date" />
+												</td>
+
+												<xsl:choose>
+													<xsl:when test="ns2:variation > 0">
+														<td class="text-success">
+															<i class="fas fa-angle-double-up mr-1"></i>
+															<xsl:value-of select="ns1:variation" />
+															%
+														</td>
+													</xsl:when>
+													<xsl:otherwise>
+														<td class="text-danger">
+															<i class="fas fa-angle-double-down mr-1"></i>
+															<xsl:value-of select="ns2:variation" />
+															%
+														</td>
+													</xsl:otherwise>
+												</xsl:choose>
+												<td>
+													<xsl:value-of select="ns2:openingAmount" />
+												</td>
+												<td>
+													<xsl:value-of select="ns2:closingAmount" />
+												</td>
+												<td>
+													<xsl:variable name="bourseId"
+														select="ns2:bourse" />
+													<a href="/Currency-client/bourses?id={$bourseId}">
+														<xsl:value-of
+															select="//ns2:bourses[2]/listeBourses/bourse[@ns2:id=$bourseId]" />
+													</a>
+												</td>
+											</tr>
+										</xsl:for-each>
+										<xsl:if
+											test="count(//ns2:actions[2]/listeActions/actions) = 0">
+											<tr class="alert alert-warning text-center">
+												<td colspan="7">
+													<i class="fas fa-exclamation"></i>
+													Aucune action n'a été trouvée!
+												</td>
+											</tr>
+										</xsl:if>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</xsl:if>
+
+				<!-- If user start the search -->
+				<xsl:if test="//ns2:actions[2]/listeActions/actions">
+					<div class="row mb-5">
+						<div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 ml-auto mr-auto">
+							<canvas
+								id="circleChart{//ns2:actions[2]/listeActions/actions[1]/@ns2:id}"
+								width="400" height="400"></canvas>
+						</div>
+						<div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 ml-auto mr-auto">
+							<canvas
+								id="lineChart{//ns2:actions[2]/listeActions/actions[1]/@ns2:id}"
+								width="400" height="400"></canvas>
+						</div>
+					</div>
+				</xsl:if>
+
+				<div class="row mb-5"></div>
+
 				</div>
+				
+				
+				<footer class="footer mt-auto py-3 mt-5 bg-light">
+				  <div class="container">
+				    <span class="text-muted"><i class="fab fa-ups"></i> Service web de haute qualité</span>
+				  </div>
+				</footer>
+						
+
 
 				<!-- Optional JavaScript -->
 				<!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -173,85 +364,154 @@
 				<script src="./static/js/all.min.js"></script>
 				<script src="./static/js/Chart.min.js"></script>
 				<script src="./static/js/bootstrap.min.js"></script>
+				<script src="./static/js/script.js"></script>
 
 
 
-				<script>
-					var ctx = document.getElementById('myChart');
-					var myChart = new Chart(ctx, {
-					type: 'bar',
-					data: {
-					labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-					datasets: [{
-					label: '# of Votes',
-					data: [12, 19, 3, 5, 2, 3],
-					backgroundColor: [
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(255, 206, 86, 0.2)',
-					'rgba(75, 192, 192, 0.2)',
-					'rgba(153, 102, 255, 0.2)',
-					'rgba(255, 159, 64, 0.2)'
-					],
-					borderColor: [
-					'rgba(255, 99, 132, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(75, 192, 192, 1)',
-					'rgba(153, 102, 255, 1)',
-					'rgba(255, 159, 64, 1)'
-					],
-					borderWidth: 1
-					}]
-					},
-					options: {
-					scales: {
-					yAxes: [{
-					ticks: {
-					beginAtZero: true
-					}
-					}]
-					}
-					}
+				<script type="text/javascript">
+					$('document').ready(function(){
+
+
+					// Draw actions evolution
+					drawGraph("myChart",
+					"Évolution des actions",
+					`
+					<xsl:value-of
+						select="/ns2:actions/listeActions/actions[1]/ns2:name" />
+					`,
+					`
+					<xsl:value-of
+						select="/ns2:actions/listeActions/actions[2]/ns2:name" />
+					`,
+					`
+					<xsl:value-of
+						select="/ns2:actions/listeActions/actions[3]/ns2:name" />
+					`,
+					`
+					<xsl:value-of
+						select="/ns2:actions/listeActions/actions[4]/ns2:name" />
+					`,
+					`
+					<xsl:value-of
+						select="/ns2:actions/listeActions/actions[5]/ns2:name" />
+					`,
+					`
+					<xsl:value-of
+						select="/ns2:actions/listeActions/actions[6]/ns2:name" />
+					`,
+
+					`
+					<xsl:value-of
+						select="/ns2:actions/listeActions/actions[1]/ns2:variation" />
+					`,
+					`
+					<xsl:value-of
+						select="/ns2:actions/listeActions/actions[2]/ns2:variation" />
+					`,
+					`
+					<xsl:value-of
+						select="/ns2:actions/listeActions/actions[3]/ns2:variation" />
+					`,
+					`
+					<xsl:value-of
+						select="/ns2:actions/listeActions/actions[4]/ns2:variation" />
+					`,
+					`
+					<xsl:value-of
+						select="/ns2:actions/listeActions/actions[5]/ns2:variation" />
+					`,
+					`
+					<xsl:value-of
+						select="/ns2:actions/listeActions/actions[6]/ns2:variation" />
+					`);
+
+					drawGraph("myChart1",
+					"Évolution des bourses",
+					`
+					<xsl:value-of
+						select="//ns2:bourses/listeBourses/bourse[1]/ns2:name" />
+					`,
+					`
+					<xsl:value-of
+						select="//ns2:bourses/listeBourses/bourse[2]/ns2:name" />
+					`,
+					`
+					<xsl:value-of
+						select="//ns2:bourses/listeBourses/bourse[3]/ns2:name" />
+					`,
+					`
+					<xsl:value-of
+						select="//ns2:bourses/listeBourses/bourse[4]/ns2:name" />
+					`,
+					`
+					<xsl:value-of
+						select="//ns2:bourses/listeBourses/bourse[5]/ns2:name" />
+					`,
+					`
+					<xsl:value-of
+						select="//ns2:bourses/listeBourses/bourse[6]/ns2:name" />
+					`,
+
+					`
+					<xsl:value-of
+						select="//ns2:bourses/listeBourses/bourse[1]/ns2:numberOfActions" />
+					`,
+					`
+					<xsl:value-of
+						select="//ns2:bourses/listeBourses/bourse[2]/ns2:numberOfActions" />
+					`,
+					`
+					<xsl:value-of
+						select="//ns2:bourses/listeBourses/bourse[3]/ns2:numberOfActions" />
+					`,
+					`
+					<xsl:value-of
+						select="//ns2:bourses/listeBourses/bourse[4]/ns2:numberOfActions" />
+					`,
+					`
+					<xsl:value-of
+						select="//ns2:bourses/listeBourses/bourse[5]/ns2:numberOfActions" />
+					`,
+					`
+					<xsl:value-of
+						select="//ns2:bourses/listeBourses/bourse[6]/ns2:numberOfActions" />
+					`
+					);
+
 					});
+					
+					let allActions = [];
+					
+					<xsl:for-each select="//ns2:actions[1]/listeActions/actions">
+						<xsl:variable name="bourseId" select="ns2:bourse" />
+						allActions.push({
+							date: '<xsl:value-of select="ns2:date" />',
+							variation: '<xsl:value-of select="ns2:variation" />',
+							name: '<xsl:value-of select="ns2:name" />'
+						});
+					</xsl:for-each>
+					drawAllActionsLineCharts(allActions);
+						
 
-					var ctx1 = document.getElementById('myChart1');
-					var myChart = new Chart(ctx1, {
-					type: 'bar',
-					data: {
-					labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-					datasets: [{
-					label: '# of Votes',
-					data: [12, 19, 3, 5, 2, 3],
-					backgroundColor: [
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(255, 206, 86, 0.2)',
-					'rgba(75, 192, 192, 0.2)',
-					'rgba(153, 102, 255, 0.2)',
-					'rgba(255, 159, 64, 0.2)'
-					],
-					borderColor: [
-					'rgba(255, 99, 132, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(75, 192, 192, 1)',
-					'rgba(153, 102, 255, 1)',
-					'rgba(255, 159, 64, 1)'
-					],
-					borderWidth: 1
-					}]
-					},
-					options: {
-					scales: {
-					yAxes: [{
-					ticks: {
-					beginAtZero: true
-					}
-					}]
-					}
-					}
-					});
+					<xsl:if test="//ns2:actions[2]/listeActions/actions">
+					
+						let actions = [];
+						
+						<xsl:for-each select="//ns2:actions[2]/listeActions/actions">
+							<xsl:variable name="bourseId" select="ns2:bourse" />
+							actions.push({
+								date: '<xsl:value-of select="ns2:date" />',
+								variation: '<xsl:value-of select="ns2:variation" />'
+							});
+						</xsl:for-each>
+					
+						drawCharts("<xsl:value-of select="//ns2:actions[2]/listeActions/actions[1]/@ns2:id" />",
+						`
+						<xsl:value-of
+							select="//ns2:actions[2]/listeActions/actions[1]/ns2:name" />
+						`,
+						actions);
+					</xsl:if>
 				</script>
 
 
